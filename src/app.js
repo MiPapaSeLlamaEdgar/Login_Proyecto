@@ -46,6 +46,8 @@ app.get('/', (req, res) => {
     if (req.session.loggedin) {
         res.render('home', { name: req.session.name });
     } else {
-        res.redirect('/login');
+        res.redirect('/index');
     }
 });
+
+

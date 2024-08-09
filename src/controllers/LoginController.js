@@ -4,7 +4,7 @@ function login(req, res) {
     if (req.session.loggedin) {
         res.redirect('/'); // Redirige al inicio si ya está logueado
     } else {
-        res.render('login/index'); // Muestra la página de login si no está logueado
+        res.render('login/login'); // Muestra la página de login si no está logueado
     }
 }
 
@@ -12,19 +12,19 @@ function auth(req, res) {
     const data = req.body;
     req.getConnection((err, conn) => {
         if (err) {
-            return res.render('login/index', { error: 'Error de conexión a la base de datos.' });
+            return res.render('login/login', { error: 'Error de conexión a la base de datos.' });
         }
 
         conn.query('SELECT * FROM users WHERE email = ?', [data.email], (err, results) => {
             if (err) {
-                return res.render('login/index', { error: 'Error al consultar la base de datos.' });
+                return res.render('login/login', { error: 'Error al consultar la base de datos.' });
             }
 
             if (results.length > 0) {
                 const user = results[0];
                 bcrypt.compare(data.password, user.password, (err, isMatch) => {
                     if (err) {
-                        return res.render('login/index', { error: 'Error al verificar la contraseña.' });
+                        return res.render('login/login', { error: 'Error al verificar la contraseña.' });
                     }
 
                     if (isMatch) {
@@ -33,11 +33,11 @@ function auth(req, res) {
                         req.session.name = user.name;
                         res.redirect('/');
                     } else {
-                        res.render('login/index', { error: 'Contraseña incorrecta.' });
+                        res.render('login/login', { error: 'Contraseña incorrecta.' });
                     }
                 });
             } else {
-                res.render('login/index', { error: 'No existe un usuario con ese email.' });
+                res.render('login/login', { error: 'No existe un usuario con ese email.' });
             }
         });
     });
@@ -45,6 +45,14 @@ function auth(req, res) {
 
 function register(req, res) {
     res.render('login/register');
+}
+
+function index(req, res) {
+    res.render('login/index');
+}
+
+function resetPassword(req, res) {
+    res.render('login/reset-password');
 }
 
 function storeUser(req, res) {
@@ -92,10 +100,10 @@ function storeUser(req, res) {
 function logout(req, res) {
     if (req.session.loggedin === true) {
         req.session.destroy(() => {
-            res.redirect('/login'); // Redirige a la página de login tras destruir la sesión
+            res.redirect('/index'); // Redirige a la página de login tras destruir la sesión
         });
     } else {
-        res.redirect('/login'); // Redirige directamente si no estaba logueado
+        res.redirect('/index'); // Redirige directamente si no estaba logueado
     }
 }
 
@@ -104,5 +112,7 @@ module.exports = {
     auth,
     register,
     storeUser,
-    logout
+    logout,
+    index,
+    resetPassword
 };

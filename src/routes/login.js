@@ -17,4 +17,10 @@ router.get('/logout', LoginController.logout);
 
 router.post('/storeUser', LoginController.storeUser);
 
+// Ruta para mostrar la página de Index
+router.get('/index', LoginController.index);
+
+// Ruta para mostrar la página de Index
+router.get('/reset-password', LoginController.resetPassword);
+
 module.exports = router;
