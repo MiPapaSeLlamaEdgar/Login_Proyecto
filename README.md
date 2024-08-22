@@ -3,5 +3,7 @@ Como crear un login y registro de usuarios con Nodejs, Express, y MySQL, donde p
 
 npm install express mysql express-handlebars express-myconnection express-session body-parser bcrypt
 
+npm start dev
+
 "start":"node src/app.js",
 "dev"nodemon src/app.js"

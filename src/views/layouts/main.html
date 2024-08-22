@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>Login Node.js MySql</title>
+  <title>AgroNexo</title>
 
   <!-- Tailwind CSS Link -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.0.1/tailwind.min.css">
@@ -15,8 +15,9 @@
 </head>
 <body class="bg-gray-200">
   <nav class="flex py-5 bg-green-500 text-white px-24">
-    <div class="w-1/2 px-12 mr-auto">
-      <h1 class="text-2xl font-bold">My Application</h1>
+    <div class="flex items-center w-1/2 px-12 mr-auto">
+      <img src="/img/AgroNexo.png" alt="Logo AgroNexo" class="h-14 w-14 mr-2">
+      <h1 class="text-2xl font-bold">AgroNexo</h1>
     </div>
 
     <ul class="w-1/2 px-16 ml-auto flex justify-end pt-1">
@@ -25,17 +26,53 @@
         <p class="font-semibold">{{name}}</p>
       </li>
 
-      <li class="nav-item px-4">
-        <a href="/logout" class="nav-link font-semibold bg-red-500 hover:bg-red-700 py-3 px-4 rounded-md">Logout</a>
-      </li>
+      <!-- Menús dinámicos según el rol -->
+      {{#ifCond role '==' 'Administrador'}}
+        <li class="nav-item px-4">
+          <a href="/admin-dashboard" class="nav-link font-semibold border-2 border-white hover:bg-white hover:text-green-700 py-3 px-4 rounded-md">Admin Dashboard</a>
+        </li>
+      {{/ifCond}}
 
+      {{#ifCond role '==' 'Agricultores/Productores'}}
+        <li class="nav-item px-4">
+          <a href="/agricultor-dashboard" class="nav-link font-semibold border-2 border-white hover:bg-white hover:text-green-700 py-3 px-4 rounded-md">Agricultor Dashboard</a>
+        </li>
+      {{/ifCond}}
+
+      {{#ifCond role '==' 'Analistas de Datos Agrícolas'}}
+        <li class="nav-item px-4">
+          <a href="/analista-dashboard" class="nav-link font-semibold border-2 border-white hover:bg-white hover:text-green-700 py-3 px-4 rounded-md">Analista Dashboard</a>
+        </li>
+      {{/ifCond}}
+
+      {{#ifCond role '==' 'Gestores de Operaciones Agrícolas'}}
+        <li class="nav-item px-4">
+          <a href="/gestor-dashboard" class="nav-link font-semibold border-2 border-white hover:bg-white hover:text-green-700 py-3 px-4 rounded-md">Gestor Dashboard</a>
+        </li>
+      {{/ifCond}}
+
+      {{#ifCond role '==' 'Comerciantes de Productos Agrícolas'}}
+        <li class="nav-item px-4">
+          <a href="/comerciante-dashboard" class="nav-link font-semibold border-2 border-white hover:bg-white hover:text-green-700 py-3 px-4 rounded-md">Comerciante Dashboard</a>
+        </li>
+      {{/ifCond}}
+
+      {{#ifCond role '==' 'Consultores Agrícolas'}}
+        <li class="nav-item px-4">
+          <a href="/consultor-dashboard" class="nav-link font-semibold border-2 border-white hover:bg-white hover:text-green-700 py-3 px-4 rounded-md">Consultor Dashboard</a>
+        </li>
+      {{/ifCond}}
+
+      <li class="nav-item px-4">
+        <a href="/logout" class="nav-link font-semibold bg-red-500 hover:bg-red-700 py-3 px-4 rounded-md">Cerrar Sesión</a>
+      </li>
       {{else}}
       <li class="nav-item px-4">
         <a href="/index" class="nav-link font-semibold border-2 border-white hover:bg-white hover:text-green-700 py-3 px-4 rounded-md">Inicio</a>
       </li>
 
       <li class="nav-item px-4">
-        <a href="/login" class="nav-link font-semibold border-2 border-white hover:bg-white hover:text-green-700 py-3 px-4 rounded-md">Iniciar Sesion</a>
+        <a href="/login" class="nav-link font-semibold border-2 border-white hover:bg-white hover:text-green-700 py-3 px-4 rounded-md">Iniciar Sesión</a>
       </li>
 
       <li class="nav-item px-4">

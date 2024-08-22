@@ -3,51 +3,101 @@ const { engine } = require('express-handlebars');
 const myconnection = require('express-myconnection');
 const mysql = require('mysql');
 const session = require('express-session');
-const bodyParser = require('body-parser')
-const login = require('./routes/login');
-const { redirect } = require('express/lib/response');
+const bodyParser = require('body-parser');
+const path = require('path');
 
+// Importar las rutas
+const loginRoutes = require('./routes/login');
 
 const app = express();
 app.set('port', 5000);
 
-app.set('views', __dirname + '/views');
+// Configurar el motor de plantillas Handlebars con el helper ifCond
 app.engine('.html', engine({
-	extname: '.html',
+  extname: '.html',
+  defaultLayout: 'main',
+  layoutsDir: path.join(__dirname, 'views', 'layouts'),
+  helpers: {
+    ifCond: function (v1, operator, v2, options) {
+      switch (operator) {
+        case '==':
+          return (v1 == v2) ? options.fn(this) : options.inverse(this);
+        case '===':
+          return (v1 === v2) ? options.fn(this) : options.inverse(this);
+        case '!=':
+          return (v1 != v2) ? options.fn(this) : options.inverse(this);
+        case '!==':
+          return (v1 !== v2) ? options.fn(this) : options.inverse(this);
+        case '<':
+          return (v1 < v2) ? options.fn(this) : options.inverse(this);
+        case '<=':
+          return (v1 <= v2) ? options.fn(this) : options.inverse(this);
+        case '>':
+          return (v1 > v2) ? options.fn(this) : options.inverse(this);
+        case '>=':
+          return (v1 >= v2) ? options.fn(this) : options.inverse(this);
+        default:
+          return options.inverse(this);
+      }
+    }
+  }
 }));
-app.set('view engine', 'html');
 
-app.use(bodyParser.urlencoded({
-  extended: true
-}));
+app.set('view engine', 'html');
+app.set('views', path.join(__dirname, 'views')); // Esto asegura que las vistas se busquen en 'src/views'
+
+// Configuración del bodyParser para manejar datos POST
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
+// Configurar conexión a la base de datos MySQL
 app.use(myconnection(mysql, {
- host: '127.0.0.1',
- user: 'root',
- password: '1234',
- port: 3306,
- database: 'nodelogin'
+  host: '127.0.0.1',
+  user: 'root',
+  password: '',
+  port: 3306,
+  database: 'gestionagricola'
 }, 'single'));
 
+// Configurar las sesiones
 app.use(session({
-	secret: 'secret',
-	resave: true,
-	saveUninitialized: true
+  secret: 'secret',
+  resave: true,
+  saveUninitialized: true
 }));
 
-app.listen(app.get('port'), () => {
- console.log('listening on port ', app.get('port'));
-});
+// Configurar el servidor para servir archivos estáticos desde 'public'
+app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', login);
+// Definir las rutas de la aplicación
+app.use('/', loginRoutes);
 
+// Ruta para la página de inicio
 app.get('/', (req, res) => {
-    if (req.session.loggedin) {
-        res.render('home', { name: req.session.name });
-    } else {
-        res.redirect('/index');
+  if (req.session.loggedin) {
+    // Redirigir según el rol del usuario
+    switch (req.session.role) {
+      case 'Administrador':
+        return res.redirect('/admin-dashboard');
+      case 'Agricultores/Productores':
+        return res.redirect('/agricultor-dashboard');
+      case 'Analistas de Datos Agrícolas':
+        return res.redirect('/analista-dashboard');
+      case 'Gestores de Operaciones Agrícolas':
+        return res.redirect('/gestor-dashboard');
+      case 'Comerciantes de Productos Agrícolas':
+        return res.redirect('/comerciante-dashboard');
+      case 'Consultores Agrícolas':
+        return res.redirect('/consultor-dashboard');
+      default:
+        return res.redirect('/user-dashboard');
     }
+  } else {
+    res.redirect('/index');
+  }
 });
 
-
+// Iniciar el servidor
+app.listen(app.get('port'), () => {
+  console.log('Listening on port', app.get('port'));
+});
