@@ -1,14 +1,15 @@
+// openaiService.js
 const axios = require('axios');
 require('dotenv').config(); // Para cargar las variables de entorno desde .env
 
-const openaiApiKey = process.env.OPENAI_API_KEY; // Asegúrate de que el .env esté en la raíz
+const openaiApiKey = process.env.OPENAI_API_KEY;
 
 async function getChatGPTResponse(message) {
   try {
     const response = await axios.post(
       'https://api.openai.com/v1/chat/completions',
       {
-        model: 'gpt-4-turbo',
+        model: 'gpt-3.5-turbo',
         messages: [{ role: 'user', content: message }],
       },
       {

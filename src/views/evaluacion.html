@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Evaluación de Viabilidad del Producto Agrícola</title>
+    <!-- Tailwind CSS Link -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.0.1/tailwind.min.css">
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen">
+    <div class="block mx-auto my-12 p-8 bg-white w-2/3 border border-gray-200 rounded-lg shadow-lg text-gray-800">
+        <h1 class="text-3xl font-bold text-center text-green-700">Evaluación de Viabilidad del Producto Agrícola</h1>
+        <form id="evaluation-form" class="mt-4">
+            <!-- Datos del Producto -->
+            <div class="mb-6">
+                <h2 class="text-xl font-semibold text-green-600">Datos del Producto</h2>
+                <input type="text" name="productName" placeholder="Nombre del Producto" class="border border-gray-300 w-full text-lg placeholder-gray-500 p-2 my-2 bg-gray-100 focus:bg-white focus:border-green-500" required>
+                <textarea name="productDescription" placeholder="Descripción del Producto" class="border border-gray-300 w-full text-lg placeholder-gray-500 p-2 my-2 bg-gray-100 focus:bg-white focus:border-green-500" required></textarea>
+            </div>
+
+            <!-- Evaluación Técnica -->
+            <div class="mb-6">
+                <h2 class="text-xl font-semibold text-green-600">Evaluación Técnica</h2>
+                <textarea name="technicalRequirements" placeholder="Requisitos Técnicos" class="border border-gray-300 w-full text-lg placeholder-gray-500 p-2 my-2 bg-gray-100 focus:bg-white focus:border-green-500"></textarea>
+                <select name="technologyAvailability" class="border border-gray-300 w-full text-lg placeholder-gray-500 p-2 my-2 bg-gray-100 focus:bg-white focus:border-green-500">
+                    <option value="">Disponibilidad de Tecnología</option>
+                    <option value="Alta">Alta</option>
+                    <option value="Media">Media</option>
+                    <option value="Baja">Baja</option>
+                </select>
+                <textarea name="technicalComments" placeholder="Comentarios sobre la Viabilidad Técnica" class="border border-gray-300 w-full text-lg placeholder-gray-500 p-2 my-2 bg-gray-100 focus:bg-white focus:border-green-500"></textarea>
+            </div>
+
+            <!-- Resultados de Pruebas de Campo -->
+            <div class="mb-6">
+                <h2 class="text-xl font-semibold text-green-600">Resultados de Pruebas de Campo</h2>
+                <input type="text" name="testedRegions" placeholder="Regiones Climáticas Probadas" class="border border-gray-300 w-full text-lg placeholder-gray-500 p-2 my-2 bg-gray-100 focus:bg-white focus:border-green-500">
+                <textarea name="performanceResults" placeholder="Resultados de Rendimiento" class="border border-gray-300 w-full text-lg placeholder-gray-500 p-2 my-2 bg-gray-100 focus:bg-white focus:border-green-500"></textarea>
+                <textarea name="fieldTestComments" placeholder="Comentarios sobre Pruebas de Campo" class="border border-gray-300 w-full text-lg placeholder-gray-500 p-2 my-2 bg-gray-100 focus:bg-white focus:border-green-500"></textarea>
+            </div>
+
+            <!-- Viabilidad Económica -->
+            <div class="mb-6">
+                <h2 class="text-xl font-semibold text-green-600">Viabilidad Económica</h2>
+                <input type="number" step="0.01" name="developmentCosts" placeholder="Costos de Desarrollo" class="border border-gray-300 w-full text-lg placeholder-gray-500 p-2 my-2 bg-gray-100 focus:bg-white focus:border-green-500">
+                <input type="number" step="0.01" name="productionCosts" placeholder="Costos de Producción" class="border border-gray-300 w-full text-lg placeholder-gray-500 p-2 my-2 bg-gray-100 focus:bg-white focus:border-green-500">
+                <input type="number" step="0.01" name="roiEstimate" placeholder="ROI Estimado (%)" class="border border-gray-300 w-full text-lg placeholder-gray-500 p-2 my-2 bg-gray-100 focus:bg-white focus:border-green-500">
+                <textarea name="economicComments" placeholder="Comentarios sobre Viabilidad Económica" class="border border-gray-300 w-full text-lg placeholder-gray-500 p-2 my-2 bg-gray-100 focus:bg-white focus:border-green-500"></textarea>
+            </div>
+
+            <!-- Disponibilidad de Recursos -->
+            <div class="mb-6">
+                <h2 class="text-xl font-semibold text-green-600">Disponibilidad de Recursos</h2>
+                <textarea name="requiredResources" placeholder="Recursos Necesarios" class="border border-gray-300 w-full text-lg placeholder-gray-500 p-2 my-2 bg-gray-100 focus:bg-white focus:border-green-500"></textarea>
+                <select name="resourceAvailability" class="border border-gray-300 w-full text-lg placeholder-gray-500 p-2 my-2 bg-gray-100 focus:bg-white focus:border-green-500">
+                    <option value="">Disponibilidad Actual de Recursos</option>
+                    <option value="Alta">Alta</option>
+                    <option value="Media">Media</option>
+                    <option value="Baja">Baja</option>
+                </select>
+                <textarea name="resourceComments" placeholder="Comentarios sobre Recursos" class="border border-gray-300 w-full text-lg placeholder-gray-500 p-2 my-2 bg-gray-100 focus:bg-white focus:border-green-500"></textarea>
+            </div>
+
+            <!-- Evaluación General -->
+            <div class="mb-6">
+                <h2 class="text-xl font-semibold text-green-600">Evaluación General</h2>
+                <select name="overallViability" class="border border-gray-300 w-full text-lg placeholder-gray-500 p-2 my-2 bg-gray-100 focus:bg-white focus:border-green-500">
+                    <option value="">Viabilidad Global del Producto</option>
+                    <option value="Alta">Alta</option>
+                    <option value="Media">Media</option>
+                    <option value="Baja">Baja</option>
+                </select>
+                <textarea name="generalComments" placeholder="Comentarios Generales" class="border border-gray-300 w-full text-lg placeholder-gray-500 p-2 my-2 bg-gray-100 focus:bg-white focus:border-green-500"></textarea>
+            </div>
+
+            <!-- Selección de Cultivo y Producto -->
+            <div class="mb-6">
+                <h2 class="text-xl font-semibold text-green-600">Selección de Cultivo y Producto</h2>
+                <input type="number" name="idCultivo" placeholder="ID del Cultivo" class="border border-gray-300 w-full text-lg placeholder-gray-500 p-2 my-2 bg-gray-100 focus:bg-white focus:border-green-500">
+                <input type="number" name="idProducto" placeholder="ID del Producto" class="border border-gray-300 w-full text-lg placeholder-gray-500 p-2 my-2 bg-gray-100 focus:bg-white focus:border-green-500">
+            </div>
+
+            <button type="submit" class="rounded-md bg-green-500 w-full text-lg text-white font-semibold p-2 my-3 hover:bg-green-600 focus:bg-green-700 focus:outline-none">
+                Enviar Evaluación
+            </button>
+        </form>
+
+        <!-- Elemento para mostrar la respuesta de ChatGPT -->
+        <div id="response-container" class="mt-4 p-4 bg-green-100 border border-green-200 rounded-md hidden">
+            <h3 class="text-lg font-semibold text-green-800">Respuesta de GPT:</h3>
+            <p id="gpt-response" class="text-gray-700"></p>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('evaluation-form').addEventListener('submit', async function(event) {
+            event.preventDefault();
+            
+            const formData = new FormData(event.target);
+            const data = Object.fromEntries(formData.entries());
+
+            try {
+                const response = await fetch('/submit-evaluation', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                const result = await response.json();
+                
+                // Mostrar la respuesta de ChatGPT
+                if (result.response) {
+                    document.getElementById('response-container').classList.remove('hidden');
+                    document.getElementById('gpt-response').innerText = result.response;
+                } else {
+                    alert('Error al obtener la respuesta de ChatGPT');
+                }
+            } catch (error) {
+                console.error('Error al enviar la evaluación:', error);
+                alert('Hubo un error al enviar la evaluación.');
+            }
+        });
+    </script>

@@ -1,3 +1,4 @@
+// src/app.js
 const express = require('express');
 const { engine } = require('express-handlebars');
 const myconnection = require('express-myconnection');
@@ -6,18 +7,20 @@ const session = require('express-session');
 const bodyParser = require('body-parser');
 const path = require('path');
 
-// Importar las rutas
-const loginRoutes = require('./routes/login'); 
-const chatRoutes = require('./routes/chatRoutes'); 
+const loginRoutes = require('./routes/login');
+const chatRoutes = require('./routes/chatRoutes'); // Asegúrate de que esta ruta sea correcta
+const evaluacionRoutes = require('./routes/evaluacionRoutes');
+
+const openaiService = require('../openaiService'); // Asegúrate de que esta ruta sea correcta
 
 const app = express();
 app.set('port', 5000);
 
-// Configurar el motor de plantillas Handlebars con el helper ifCond
+// Configuración del motor de plantillas Handlebars con helpers personalizados
 app.engine('.html', engine({
   extname: '.html',
   defaultLayout: 'main',
-  layoutsDir: path.join(__dirname, 'views', 'layouts'),
+  layoutsDir: path.join(__dirname, 'views/layouts'),
   helpers: {
     ifCond: function (v1, operator, v2, options) {
       switch (operator) {
@@ -45,39 +48,97 @@ app.engine('.html', engine({
 }));
 
 app.set('view engine', 'html');
-app.set('views', path.join(__dirname, 'views')); // Ajusta la carpeta de vistas
+app.set('views', path.join(__dirname, 'views'));
 
-// Configuración del bodyParser para manejar datos POST
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-// Configurar conexión a la base de datos MySQL
 app.use(myconnection(mysql, {
   host: '127.0.0.1',
   user: 'root',
-  password: '1234',
+  password: '1234', // Reemplaza con tu contraseña
   port: 3306,
-  database: 'gestionagricola'
+  database: 'GestionAgricola'
 }, 'single'));
 
-// Configurar las sesiones
 app.use(session({
   secret: 'secret',
   resave: true,
   saveUninitialized: true
 }));
 
-// Configurar el servidor para servir archivos estáticos desde 'public'
 app.use(express.static(path.join(__dirname, 'public')));
+app.use('/', loginRoutes);
+app.use('/', chatRoutes);
+app.use('/', evaluacionRoutes);
 
-// Definir las rutas de la aplicación
-app.use('/', loginRoutes); // Rutas de inicio de sesión
-app.use('/', chatRoutes);  // Rutas del chat
+app.post('/submit-evaluation', async (req, res) => {
+    const {
+        productName, productDescription, technicalRequirements, technologyAvailability,
+        technicalComments, testedRegions, performanceResults, fieldTestComments,
+        developmentCosts, productionCosts, roiEstimate, economicComments, requiredResources,
+        resourceAvailability, resourceComments, overallViability, generalComments
+    } = req.body;
 
-// Ruta para la página de inicio
+    const message = `
+    Evaluación del Producto Agrícola:
+    Producto: ${productName}
+    Descripción: ${productDescription}
+    Requisitos Técnicos: ${technicalRequirements}
+    Disponibilidad de Tecnología: ${technologyAvailability}
+    Comentarios Técnicos: ${technicalComments}
+    Regiones Probadas: ${testedRegions}
+    Resultados de Rendimiento: ${performanceResults}
+    Comentarios sobre Pruebas de Campo: ${fieldTestComments}
+    Costos de Desarrollo: ${developmentCosts}
+    Costos de Producción: ${productionCosts}
+    ROI Estimado: ${roiEstimate}
+    Comentarios Económicos: ${economicComments}
+    Recursos Necesarios: ${requiredResources}
+    Disponibilidad de Recursos: ${resourceAvailability}
+    Comentarios sobre Recursos: ${resourceComments}
+    Viabilidad Global del Producto: ${overallViability}
+    Comentarios Generales: ${generalComments}
+    `;
+
+    try {
+        const gptResponse = await openaiService.getChatGPTResponse(message);
+
+        req.getConnection((err, connection) => {
+            if (err) throw err;
+
+            const query = `
+                INSERT INTO Viabilidad (
+                    demandaMercado, costosProduccion, condicionesClimaticas, requisitosTecnicos,
+                    disponibilidadTecnologia, comentariosTecnicos, regionesProbadas, resultadosRendimiento,
+                    comentariosPruebasCampo, costosDesarrollo, roiEstimado, comentariosEconomicos,
+                    recursosNecesarios, disponibilidadRecursos, comentariosRecursos, viabilidadGlobal,
+                    comentariosGenerales, idProducto
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            `;
+
+            const values = [
+                overallViability, productionCosts, fieldTestComments, technicalRequirements,
+                technologyAvailability, technicalComments, testedRegions, performanceResults,
+                fieldTestComments, developmentCosts, roiEstimate, economicComments,
+                requiredResources, resourceAvailability, resourceComments, overallViability,
+                generalComments, productName // Asegúrate de relacionar esto con el producto correcto
+            ];
+
+            connection.query(query, values, (error, results) => {
+                if (error) throw error;
+                res.json({ response: gptResponse });
+            });
+        });
+
+    } catch (error) {
+        console.error('Error en la evaluación de viabilidad:', error.message);
+        res.status(500).json({ error: 'Error al evaluar la viabilidad del producto' });
+    }
+});
+
 app.get('/', (req, res) => {
   if (req.session.loggedin) {
-    // Redirigir según el rol del usuario
     switch (req.session.role) {
       case 'Administrador':
         return res.redirect('/admin-dashboard');
@@ -99,7 +160,6 @@ app.get('/', (req, res) => {
   }
 });
 
-// Iniciar el servidor
 app.listen(app.get('port'), () => {
   console.log('Listening on port', app.get('port'));
 });

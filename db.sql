@@ -1,3 +1,5 @@
+drop database gestionagricola;
+
 -- Crear la base de datos
 CREATE DATABASE IF NOT EXISTS GestionAgricola;
 USE GestionAgricola;
@@ -36,8 +38,24 @@ CREATE TABLE IF NOT EXISTS Viabilidad (
     demandaMercado VARCHAR(255),
     costosProduccion DECIMAL(10, 2),
     condicionesClimaticas VARCHAR(255),
+    requisitosTecnicos TEXT,
+    disponibilidadTecnologia VARCHAR(50),
+    comentariosTecnicos TEXT,
+    regionesProbadas VARCHAR(255),
+    resultadosRendimiento TEXT,
+    comentariosPruebasCampo TEXT,
+    costosDesarrollo DECIMAL(10, 2),
+    roiEstimado DECIMAL(5, 2),
+    comentariosEconomicos TEXT,
+    recursosNecesarios TEXT,
+    disponibilidadRecursos VARCHAR(50),
+    comentariosRecursos TEXT,
+    viabilidadGlobal VARCHAR(50),
+    comentariosGenerales TEXT,
     idCultivo INT,
-    FOREIGN KEY (idCultivo) REFERENCES Cultivo(idCultivo)
+    idProducto INT,
+    FOREIGN KEY (idCultivo) REFERENCES Cultivo(idCultivo),
+    FOREIGN KEY (idProducto) REFERENCES ProductoAgricola(idProducto)
 );
 
 -- Tabla DatosMercado
@@ -148,10 +166,15 @@ VALUES
 (2, 180, '2024-08-01');
 
 -- Insertar evaluaciones de viabilidad
-INSERT INTO Viabilidad (demandaMercado, costosProduccion, condicionesClimaticas, idCultivo)
+INSERT INTO Viabilidad (demandaMercado, costosProduccion, condicionesClimaticas, requisitosTecnicos, disponibilidadTecnologia,
+comentariosTecnicos, regionesProbadas, resultadosRendimiento, comentariosPruebasCampo, costosDesarrollo,
+roiEstimado, comentariosEconomicos, recursosNecesarios, disponibilidadRecursos, comentariosRecursos,
+viabilidadGlobal, comentariosGenerales, idCultivo, idProducto)
 VALUES 
-('Alta', 2.50, 'Clima favorable', 1),
-('Moderada', 1.10, 'Clima mixto', 2);
+('Alta', 2.50, 'Clima favorable', 'Requiere riego constante', 'Alta', 'Buena adaptabilidad técnica', 'Zona A, Zona B', 'Alto rendimiento', 'Pruebas de campo exitosas',
+5.00, 20.00, 'Económicamente viable', 'Mano de obra, fertilizantes', 'Alta', 'Recursos disponibles en su mayoría', 'Alta', 'Producto con alta demanda y buen rendimiento', 1, 1),
+('Moderada', 1.10, 'Clima mixto', 'Resistente a condiciones secas', 'Media', 'Requiere ajuste de técnicas', 'Zona C', 'Rendimiento moderado', 'Pruebas muestran variabilidad',
+3.00, 15.00, 'Viabilidad moderada', 'Fertilizantes específicos', 'Media', 'Algunos recursos limitados', 'Media', 'Puede tener mercado en condiciones adecuadas', 2, 2);
 
 -- Insertar datos de mercado
 INSERT INTO DatosMercado (datosActualizados)
