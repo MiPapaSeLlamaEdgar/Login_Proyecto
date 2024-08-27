@@ -42,9 +42,9 @@
             <!-- Viabilidad Económica -->
             <div class="mb-6">
                 <h2 class="text-xl font-semibold text-green-600">Viabilidad Económica</h2>
-                <input type="number" step="0.01" name="developmentCosts" placeholder="Costos de Desarrollo" class="border border-gray-300 w-full text-lg placeholder-gray-500 p-2 my-2 bg-gray-100 focus:bg-white focus:border-green-500">
-                <input type="number" step="0.01" name="productionCosts" placeholder="Costos de Producción" class="border border-gray-300 w-full text-lg placeholder-gray-500 p-2 my-2 bg-gray-100 focus:bg-white focus:border-green-500">
-                <input type="number" step="0.01" name="roiEstimate" placeholder="ROI Estimado (%)" class="border border-gray-300 w-full text-lg placeholder-gray-500 p-2 my-2 bg-gray-100 focus:bg-white focus:border-green-500">
+                <input type="number" name="developmentCosts" placeholder="Costos de Desarrollo" class="border border-gray-300 w-full text-lg placeholder-gray-500 p-2 my-2 bg-gray-100 focus:bg-white focus:border-green-500">
+                <input type="number" name="productionCosts" placeholder="Costos de Producción" class="border border-gray-300 w-full text-lg placeholder-gray-500 p-2 my-2 bg-gray-100 focus:bg-white focus:border-green-500">
+                <input type="number" name="roiEstimate" placeholder="ROI Estimado (%)" class="border border-gray-300 w-full text-lg placeholder-gray-500 p-2 my-2 bg-gray-100 focus:bg-white focus:border-green-500">
                 <textarea name="economicComments" placeholder="Comentarios sobre Viabilidad Económica" class="border border-gray-300 w-full text-lg placeholder-gray-500 p-2 my-2 bg-gray-100 focus:bg-white focus:border-green-500"></textarea>
             </div>
 
@@ -73,13 +73,6 @@
                 <textarea name="generalComments" placeholder="Comentarios Generales" class="border border-gray-300 w-full text-lg placeholder-gray-500 p-2 my-2 bg-gray-100 focus:bg-white focus:border-green-500"></textarea>
             </div>
 
-            <!-- Selección de Cultivo y Producto -->
-            <div class="mb-6">
-                <h2 class="text-xl font-semibold text-green-600">Selección de Cultivo y Producto</h2>
-                <input type="number" name="idCultivo" placeholder="ID del Cultivo" class="border border-gray-300 w-full text-lg placeholder-gray-500 p-2 my-2 bg-gray-100 focus:bg-white focus:border-green-500">
-                <input type="number" name="idProducto" placeholder="ID del Producto" class="border border-gray-300 w-full text-lg placeholder-gray-500 p-2 my-2 bg-gray-100 focus:bg-white focus:border-green-500">
-            </div>
-
             <button type="submit" class="rounded-md bg-green-500 w-full text-lg text-white font-semibold p-2 my-3 hover:bg-green-600 focus:bg-green-700 focus:outline-none">
                 Enviar Evaluación
             </button>
@@ -98,7 +91,7 @@
             
             const formData = new FormData(event.target);
             const data = Object.fromEntries(formData.entries());
-
+    
             try {
                 const response = await fetch('/submit-evaluation', {
                     method: 'POST',
@@ -107,19 +100,44 @@
                     },
                     body: JSON.stringify(data)
                 });
-
+    
                 const result = await response.json();
-                
-                // Mostrar la respuesta de ChatGPT
-                if (result.response) {
-                    document.getElementById('response-container').classList.remove('hidden');
-                    document.getElementById('gpt-response').innerText = result.response;
+    
+                console.log('Respuesta de ChatGPT:', result);
+    
+                if (typeof result.response === 'string') {
+                    formatResponse(result.response); // Formatear respuesta en secciones con títulos en negrita
                 } else {
-                    alert('Error al obtener la respuesta de ChatGPT');
+                    console.error('Formato inesperado en la respuesta de ChatGPT.');
+                    alert('Error al procesar la respuesta de ChatGPT.');
                 }
             } catch (error) {
                 console.error('Error al enviar la evaluación:', error);
                 alert('Hubo un error al enviar la evaluación.');
             }
         });
+    
+        function formatResponse(responseText) {
+            // Dividir la respuesta en secciones utilizando los títulos
+            const sections = responseText.split('\n').filter(Boolean); // Filtrar secciones vacías
+            let formattedResponse = '';
+    
+            sections.forEach((section) => {
+                if (section.includes('**Análisis Técnico**')) {
+                    formattedResponse += `<h4 style="font-weight: bold;">Análisis Técnico</h4>`;
+                } else if (section.includes('**Análisis Económico**')) {
+                    formattedResponse += `<h4 style="font-weight: bold;">Análisis Económico</h4>`;
+                } else if (section.includes('**Análisis Comercial y Funcional**')) {
+                    formattedResponse += `<h4 style="font-weight: bold;">Análisis Comercial y Funcional</h4>`;
+                } else {
+                    formattedResponse += `<p>${section.trim()}</p>`;
+                }
+            });
+    
+            const responseContainer = document.getElementById('response-container');
+            responseContainer.classList.remove('hidden');
+            responseContainer.innerHTML = formattedResponse;
+        }
     </script>
+</body>
+</html>

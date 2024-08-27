@@ -12,7 +12,17 @@ router.post('/chat', async (req, res) => {
 
   try {
     const gptResponse = await openaiService.getChatGPTResponse(userMessage);
-    res.json({ response: gptResponse });
+
+    // Asegúrate de que gptResponse es un JSON válido si es posible
+    // Si la respuesta es un texto plano, encapsúlalo en un objeto JSON
+    let responseObject;
+    try {
+      responseObject = JSON.parse(gptResponse);
+    } catch (jsonParseError) {
+      responseObject = { response: gptResponse };
+    }
+
+    res.json(responseObject);
   } catch (error) {
     console.error('Error en la ruta /chat:', error.message);
     res.status(500).json({ error: 'No se pudo comunicar con el servicio de OpenAI' });
