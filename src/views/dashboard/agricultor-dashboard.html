@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard del Agricultor/Productor</title>
+  <!-- Tailwind CSS Link -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.0.1/tailwind.min.css">
+  <!-- Fontawesome Link -->
+  <link href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" rel="stylesheet">
+  <style>
+    .tab-active {
+      border-bottom-width: 2px;
+      border-color: #3b82f6; /* azul-500 */
+      color: #3b82f6;
+    }
+  </style>
+</head>
+<body class="bg-gray-100">
+
+  <!-- Menú de navegación en forma de pestañas -->
+  <div class="container mx-auto mt-10">
+    <div class="bg-white rounded-lg shadow">
+      <!-- Barra de pestañas -->
+      <div class="border-b border-gray-200">
+        <ul class="flex">
+          <li class="mr-1">
+            <a class="tab-link bg-white inline-block py-2 px-4 text-blue-500 hover:text-blue-800 font-semibold" href="#gestionProductos">Gestión de Productos Agrícolas</a>
+          </li>
+          <li class="mr-1">
+            <a class="tab-link bg-white inline-block py-2 px-4 text-blue-500 hover:text-blue-800 font-semibold" href="#planificacionCultivos">Planificación y Gestión de Cultivos</a>
+          </li>
+          <li class="mr-1">
+            <a class="tab-link bg-white inline-block py-2 px-4 text-blue-500 hover:text-blue-800 font-semibold" href="#gestionInventarios">Gestión de Inventarios</a>
+          </li>
+          <li class="mr-1">
+            <a class="tab-link bg-white inline-block py-2 px-4 text-blue-500 hover:text-blue-800 font-semibold" href="#analisisViabilidad">Evaluación de Viabilidad</a>
+          </li>
+        </ul>
+      </div>
+      
+      <!-- Contenido de las pestañas -->
+      <div class="p-4">
+        <!-- Pestaña Gestión de Productos Agrícolas -->
+        <div id="gestionProductos" class="tab-content">
+          <h2 class="text-xl font-bold text-green-700 mb-4">Gestión de Productos Agrícolas</h2>
+          <p>Aquí puedes gestionar tus productos agrícolas, añadir nuevos productos, editar detalles o eliminar productos existentes.</p>
+          <br>
+          <button onclick="window.location.href='/dashboard/functions/gestion-productos'" 
+          class="py-2 px-4 bg-blue-500 text-white font-semibold rounded hover:bg-blue-600 focus:outline-none focus:bg-blue-700">
+            Ir a Gestión de Productos
+          </button>
+        </div>
+
+        <!-- Pestaña Planificación y Gestión de Cultivos -->
+        <div id="planificacionCultivos" class="tab-content hidden">
+          <h2 class="text-xl font-bold text-green-700 mb-4">Planificación y Gestión de Cultivos</h2>
+          <p>Planifica y gestiona tus cultivos, estableciendo fechas de siembra y cosecha, y ajusta tus actividades de cultivo según las necesidades.</p>
+          <!-- Contenido adicional para planificación de cultivos -->
+        </div>
+
+        <!-- Pestaña Gestión de Inventarios -->
+        <div id="gestionInventarios" class="tab-content hidden">
+          <h2 class="text-xl font-bold text-green-700 mb-4">Gestión de Inventarios</h2>
+          <p>Gestiona el inventario de tus productos agrícolas y recibe notificaciones cuando los niveles sean bajos.</p>
+          <!-- Contenido adicional para gestión de inventarios -->
+        </div>
+
+        <!-- Pestaña Evaluación de Viabilidad -->
+        <div id="analisisViabilidad" class="tab-content hidden">
+          <h2 class="text-xl font-bold text-green-700 mb-4">Evaluación de Viabilidad</h2>
+          <p>Evalúa la viabilidad de tus productos agrícolas basándote en la demanda del mercado, costos de producción y condiciones climáticas.</p>
+          <!-- Contenido adicional para evaluación de viabilidad -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Script para manejar las pestañas y resaltar la pestaña activa -->
+  <script>
+  // JavaScript para manejar el cambio de pestañas y resaltar la pestaña activa
+  document.querySelectorAll('.tab-link').forEach((tabLink) => {
+    tabLink.addEventListener('click', (event) => {
+      event.preventDefault();
+      const targetId = event.target.getAttribute('href').substring(1);
+
+      // Ocultar todas las secciones de contenido
+      document.querySelectorAll('.tab-content').forEach((tabContent) => {
+        tabContent.classList.add('hidden');
+      });
+
+      // Mostrar la sección de contenido correspondiente
+      document.getElementById(targetId).classList.remove('hidden');
+
+      // Quitar la clase activa de todas las pestañas
+      document.querySelectorAll('.tab-link').forEach((link) => {
+        link.classList.remove('tab-active', 'border-b-2', 'border-blue-500');
+      });
+
+      // Agregar la clase activa a la pestaña seleccionada
+      event.target.classList.add('tab-active', 'border-b-2', 'border-blue-500');
+    });
+  });
+
+  // Código para inicializar la primera pestaña como activa
+  document.querySelector('.tab-link').classList.add('tab-active', 'border-b-2', 'border-blue-500');
+  document.querySelector('.tab-content').classList.remove('hidden');
+  </script>
+
+</body>
+</html>

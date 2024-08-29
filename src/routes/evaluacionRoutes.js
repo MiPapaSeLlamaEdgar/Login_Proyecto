@@ -1,15 +1,20 @@
 // src/routes/evaluacionRoutes.js
 const express = require('express');
 const router = express.Router();
+const authorizeRoles = require('../middleware/authMiddleware.js'); // Importar middleware de autorización
 const openaiService = require('../../openaiService'); // Ajusta la ruta
 
 // Ruta GET para renderizar la página de evaluación
-router.get('/evaluacion', (req, res) => {
-    res.render('evaluacion');
+router.get('/dashboard/functions/evaluacion', authorizeRoles(['Agricultores/Productores']), (req, res) => {
+    res.render('dashboard/functions/evaluacion', {
+        layout: 'main', // Asegúrate de especificar el layout 'main'
+        user: req.session.user, // Asegura pasar el usuario y el rol a la vista
+        role: req.session.role
+    });
 });
 
 // Ruta POST para manejar la evaluación
-router.post('/submit-evaluation', async (req, res) => {
+router.post('/dashboard/functions/submit-evaluation', authorizeRoles(['Agricultores/Productores']), async (req, res) => {
     const {
         productName, productDescription, technicalRequirements, technologyAvailability,
         technicalComments, testedRegions, performanceResults, fieldTestComments,

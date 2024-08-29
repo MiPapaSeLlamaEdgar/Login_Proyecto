@@ -1,4 +1,4 @@
-drop database gestionagricola;
+DROP DATABASE IF EXISTS GestionAgricola;
 
 -- Crear la base de datos
 CREATE DATABASE IF NOT EXISTS GestionAgricola;
@@ -125,26 +125,26 @@ CREATE TABLE IF NOT EXISTS UserRoles (
     PRIMARY KEY (user_email, role_id)
 );
 
--- Insertar roles en la tabla Roles
+-- Insertar roles en la tabla Roles, solo los que se usan ahora más "Usuarios"
 INSERT INTO Roles (name) VALUES 
 ('Agricultores/Productores'),
-('Analistas de Datos Agrícolas'),
-('Gestores de Operaciones Agrícolas'),
 ('Comerciantes de Productos Agrícolas'),
-('Consultores Agrícolas'),
-('Administrador');
+('Administrador'),
+('Usuarios'); -- Añadir rol 'Usuarios'
 
 -- Insertar algunos usuarios de ejemplo
 INSERT INTO Users (email, name, password) VALUES 
 ('agricultor1@example.com', 'Agricultor Uno', 'password1'),
-('analista1@example.com', 'Analista Uno', 'password2'),
-('gestor1@example.com', 'Gestor Uno', 'password3');
+('comerciante1@example.com', 'Comerciante Uno', 'password2'),
+('admin1@example.com', 'Admin Uno', 'password3'),
+('usuario1@example.com', 'Usuario Uno', 'password4'); -- Añadir usuario para 'Usuarios'
 
 -- Asignar roles a los usuarios
 INSERT INTO UserRoles (user_email, role_id) VALUES 
 ('agricultor1@example.com', (SELECT id FROM Roles WHERE name = 'Agricultores/Productores')),
-('analista1@example.com', (SELECT id FROM Roles WHERE name = 'Analistas de Datos Agrícolas')),
-('gestor1@example.com', (SELECT id FROM Roles WHERE name = 'Gestores de Operaciones Agrícolas'));
+('comerciante1@example.com', (SELECT id FROM Roles WHERE name = 'Comerciantes de Productos Agrícolas')),
+('admin1@example.com', (SELECT id FROM Roles WHERE name = 'Administrador')),
+('usuario1@example.com', (SELECT id FROM Roles WHERE name = 'Usuarios')); -- Asignar rol 'Usuarios'
 
 -- Insertar productos agrícolas
 INSERT INTO ProductoAgricola (nombre, categoria, precio, cantidad)

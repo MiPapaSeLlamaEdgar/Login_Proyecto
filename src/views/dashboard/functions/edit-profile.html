@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Actualizar Perfil</title>
+  <!-- Tailwind CSS Link -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.0.1/tailwind.min.css">
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen">
+
+  <!-- Contenedor del formulario -->
+  <div class="bg-white shadow-lg rounded-lg w-full max-w-2xl mx-4 p-8">
+    <h2 class="text-2xl font-bold text-gray-800 mb-6 text-center">Actualizar Perfil</h2>
+
+    <form id="update-profile-form" action="/update-profile" method="POST" class="space-y-6">
+      <!-- Nombre -->
+      <div>
+        <label for="first_name" class="block text-sm font-medium text-gray-700">Nombre</label>
+        <input type="text" id="first_name" name="first_name" placeholder="Ingresa tu nombre" class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500">
+      </div>
+
+      <!-- Apellido -->
+      <div>
+        <label for="last_name" class="block text-sm font-medium text-gray-700">Apellido</label>
+        <input type="text" id="last_name" name="last_name" placeholder="Ingresa tu apellido" class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500">
+      </div>
+
+      <!-- Tipo de Documento -->
+      <div>
+        <label for="document_type" class="block text-sm font-medium text-gray-700">Tipo de Documento</label>
+        <select id="document_type" name="document_type" class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500">
+          <option value="CC">Cédula de Ciudadanía (CC)</option>
+          <option value="TI">Tarjeta de Identidad (TI)</option>
+          <option value="CE">Cédula de Extranjería (CE)</option>
+          <option value="PAS">Pasaporte (PAS)</option>
+        </select>
+      </div>
+
+      <!-- Número de Documento -->
+      <div>
+        <label for="document_number" class="block text-sm font-medium text-gray-700">Número de Documento</label>
+        <input type="text" id="document_number" name="document_number" placeholder="Ingresa tu número de documento" class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500">
+      </div>
+
+      <!-- Teléfono -->
+      <div>
+        <label for="phone" class="block text-sm font-medium text-gray-700">Teléfono</label>
+        <input type="tel" id="phone" name="phone" placeholder="Ingresa tu número de teléfono" class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500">
+      </div>
+
+      <!-- Dirección -->
+      <div>
+        <label for="address" class="block text-sm font-medium text-gray-700">Dirección</label>
+        <input type="text" id="address" name="address" placeholder="Ingresa tu dirección" class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500">
+      </div>
+
+      <!-- Botón de Enviar -->
+      <div>
+        <button type="submit" class="w-full py-2 px-4 bg-green-500 text-white font-semibold rounded-md hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
+          Actualizar Perfil
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <!-- Script para manejar el envío del formulario -->
+  <script>
+    document.getElementById('update-profile-form').addEventListener('submit', function(event) {
+        event.preventDefault();
+        // Aquí puedes agregar lógica adicional antes de enviar el formulario
+        alert('Datos del perfil actualizados correctamente.');
+        this.submit(); // Envía el formulario después de la lógica adicional
+    });
+  </script>
+
+</body>
+</html>

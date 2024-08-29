@@ -1,7 +1,17 @@
 const express = require('express');
 const LoginController = require('../controllers/LoginController');
+const authorizeRoles = require('../middleware/authMiddleware'); // Importa el middleware para autorización de roles
 
 const router = express.Router();
+
+// Middleware para verificar si el usuario está autenticado
+function isAuthenticated(req, res, next) {
+    if (req.session && req.session.user) {
+        next();
+    } else {
+        res.status(401).json({ success: false, message: 'No estás autenticado.' });
+    }
+}
 
 // Ruta para mostrar la página de login
 router.get('/login', LoginController.login);
@@ -24,16 +34,39 @@ router.get('/index', LoginController.index);
 // Ruta para mostrar la página de Reset Password
 router.get('/reset-password', LoginController.resetPassword);
 
-// Ruta para mostrar la página de Admin
-router.get('/admin', LoginController.admin);
+// Ruta para mostrar la página de Admin, accesible solo para administradores
+router.get('/admin', isAuthenticated, authorizeRoles(['Administrador']), LoginController.admin);
 
 // Rutas para los dashboards según el rol del usuario
-router.get('/admin-dashboard', LoginController.adminDashboard);
-router.get('/agricultor-dashboard', LoginController.agricultorDashboard);
-router.get('/analista-dashboard', LoginController.analistaDashboard);
-router.get('/gestor-dashboard', LoginController.gestorDashboard);
-router.get('/comerciante-dashboard', LoginController.comercianteDashboard);
-router.get('/consultor-dashboard', LoginController.consultorDashboard);
-router.get('/user-dashboard', LoginController.userDashboard);
+router.get('/admin-dashboard', isAuthenticated, authorizeRoles(['Administrador']), LoginController.adminDashboard);
+router.get('/agricultor-dashboard', isAuthenticated, authorizeRoles(['Agricultores/Productores']), LoginController.agricultorDashboard);
+router.get('/comerciante-dashboard', isAuthenticated, authorizeRoles(['Comerciantes de Productos Agrícolas']), LoginController.comercianteDashboard);
+router.get('/user-dashboard', isAuthenticated, authorizeRoles(['Usuarios']), LoginController.userDashboard);
+
+// Ruta para actualizar el perfil, accesible para todos los usuarios autenticados
+router.post('/update-profile', isAuthenticated, (req, res) => {
+    const { first_name, last_name, document_type, document_number, phone, address } = req.body;
+    const email = req.session.user.email; // Asumiendo que tienes la sesión configurada con el correo del usuario
+
+    req.getConnection((err, conn) => {
+        if (err) {
+            console.error('Error al conectar con la base de datos:', err);
+            return res.json({ success: false, message: 'Error al conectar con la base de datos.' });
+        }
+
+        conn.query(
+            'UPDATE Users SET first_name = ?, last_name = ?, document_type = ?, document_number = ?, phone = ?, address = ? WHERE email = ?',
+            [first_name, last_name, document_type, document_number, phone, address, email],
+            (err, result) => {
+                if (err) {
+                    console.error('Error al actualizar los datos del perfil:', err);
+                    return res.json({ success: false, message: 'Error al actualizar los datos del perfil.' });
+                }
+
+                return res.json({ success: true, message: 'Perfil actualizado con éxito.' });
+            }
+        );
+    });
+});
 
 module.exports = router;

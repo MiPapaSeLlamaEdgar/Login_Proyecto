@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dashboard del Comerciante</title>
+  <title>Dashboard del Usuario</title>
   <!-- Tailwind CSS Link -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.0.1/tailwind.min.css">
   <!-- Fontawesome Link -->
@@ -25,52 +25,52 @@
       <div class="border-b border-gray-200">
         <ul class="flex">
           <li class="mr-1">
-            <a class="tab-link bg-white inline-block py-2 px-4 text-blue-500 hover:text-blue-800 font-semibold" href="#gestionVentas">Gestión de Ventas</a>
+            <a class="tab-link bg-white inline-block py-2 px-4 text-blue-500 hover:text-blue-800 font-semibold" href="#perfil">Perfil</a>
           </li>
           <li class="mr-1">
-            <a class="tab-link bg-white inline-block py-2 px-4 text-blue-500 hover:text-blue-800 font-semibold" href="#analisisMercado">Análisis de Mercado</a>
+            <a class="tab-link bg-white inline-block py-2 px-4 text-blue-500 hover:text-blue-800 font-semibold" href="#historial">Historial de Actividades</a>
           </li>
           <li class="mr-1">
-            <a class="tab-link bg-white inline-block py-2 px-4 text-blue-500 hover:text-blue-800 font-semibold" href="#optimizacionVentas">Optimización de Ventas y Marketing</a>
+            <a class="tab-link bg-white inline-block py-2 px-4 text-blue-500 hover:text-blue-800 font-semibold" href="#soporte">Soporte y Feedback</a>
           </li>
           <li class="mr-1">
-            <a class="tab-link bg-white inline-block py-2 px-4 text-blue-500 hover:text-blue-800 font-semibold" href="#alertasNotificaciones">Alertas y Notificaciones</a>
+            <a class="tab-link bg-white inline-block py-2 px-4 text-blue-500 hover:text-blue-800 font-semibold" href="#notificaciones">Notificaciones</a>
           </li>
         </ul>
       </div>
       
       <!-- Contenido de las pestañas -->
       <div class="p-4">
-        <!-- Pestaña Gestión de Ventas -->
-        <div id="gestionVentas" class="tab-content">
-          <h2 class="text-xl font-bold text-green-700 mb-4">Gestión de Ventas</h2>
-          <p>Aquí puedes gestionar las ventas de productos agrícolas, listar nuevos productos y revisar el estado de las ventas actuales.</p>
+        <!-- Pestaña Perfil -->
+        <div id="perfil" class="tab-content">
+          <h2 class="text-xl font-bold text-green-700 mb-4">Perfil</h2>
+          <p>Aquí puedes ver y actualizar tu información de perfil.</p>
           <br>
-          <button onclick="window.location.href='/dashboard/functions/gestion-ventas'" 
+          <button onclick="window.location.href='/dashboard/functions/perfil'" 
           class="py-2 px-4 bg-blue-500 text-white font-semibold rounded hover:bg-blue-600 focus:outline-none focus:bg-blue-700">
-            Ir a Gestión de Ventas
+            Editar Perfil
           </button>
         </div>
 
-        <!-- Pestaña Análisis de Mercado -->
-        <div id="analisisMercado" class="tab-content hidden">
-          <h2 class="text-xl font-bold text-green-700 mb-4">Análisis de Mercado</h2>
-          <p>Visualiza y analiza los datos de mercado actuales para tomar decisiones informadas sobre precios y estrategias de ventas.</p>
-          <!-- Contenido adicional para análisis de mercado -->
+        <!-- Pestaña Historial de Actividades -->
+        <div id="historial" class="tab-content hidden">
+          <h2 class="text-xl font-bold text-green-700 mb-4">Historial de Actividades</h2>
+          <p>Consulta el historial de tus actividades en la plataforma.</p>
+          <!-- Contenido adicional para historial de actividades -->
         </div>
 
-        <!-- Pestaña Optimización de Ventas y Marketing -->
-        <div id="optimizacionVentas" class="tab-content hidden">
-          <h2 class="text-xl font-bold text-green-700 mb-4">Optimización de Ventas y Marketing</h2>
-          <p>Mejora las estrategias de ventas y marketing para aumentar la rentabilidad y alcance de los productos agrícolas.</p>
-          <!-- Contenido adicional para optimización de ventas y marketing -->
+        <!-- Pestaña Soporte y Feedback -->
+        <div id="soporte" class="tab-content hidden">
+          <h2 class="text-xl font-bold text-green-700 mb-4">Soporte y Feedback</h2>
+          <p>Obtén asistencia y proporciona feedback para mejorar el sistema.</p>
+          <!-- Contenido adicional para soporte y feedback -->
         </div>
 
-        <!-- Pestaña Alertas y Notificaciones -->
-        <div id="alertasNotificaciones" class="tab-content hidden">
-          <h2 class="text-xl font-bold text-green-700 mb-4">Alertas y Notificaciones</h2>
-          <p>Recibe alertas y notificaciones sobre cambios en el mercado o en las condiciones de los productos.</p>
-          <!-- Contenido adicional para alertas y notificaciones -->
+        <!-- Pestaña Notificaciones -->
+        <div id="notificaciones" class="tab-content hidden">
+          <h2 class="text-xl font-bold text-green-700 mb-4">Notificaciones</h2>
+          <p>Revisa las notificaciones importantes y actualizaciones de la plataforma.</p>
+          <!-- Contenido adicional para notificaciones -->
         </div>
       </div>
     </div>
