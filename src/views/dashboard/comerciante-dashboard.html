@@ -4,10 +4,16 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Dashboard del Comerciante</title>
-  <!-- Tailwind CSS Link -->
+  
+  <!-- CSS Styles -->
+  <link href="/dashboard/NiceAdmin/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="/dashboard/NiceAdmin/assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="/dashboard/NiceAdmin/assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+  <link href="/dashboard/NiceAdmin/assets/vendor/simple-datatables/style.css" rel="stylesheet">
+  <link href="/dashboard/NiceAdmin/assets/css/style.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.0.1/tailwind.min.css">
-  <!-- Fontawesome Link -->
   <link href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" rel="stylesheet">
+
   <style>
     .tab-active {
       border-bottom-width: 2px;
@@ -38,18 +44,51 @@
           </li>
         </ul>
       </div>
-      
+
       <!-- Contenido de las pestañas -->
       <div class="p-4">
         <!-- Pestaña Gestión de Ventas -->
         <div id="gestionVentas" class="tab-content">
           <h2 class="text-xl font-bold text-green-700 mb-4">Gestión de Ventas</h2>
           <p>Aquí puedes gestionar las ventas de productos agrícolas, listar nuevos productos y revisar el estado de las ventas actuales.</p>
-          <br>
-          <button onclick="window.location.href='/dashboard/functions/gestion-ventas'" 
-          class="py-2 px-4 bg-blue-500 text-white font-semibold rounded hover:bg-blue-600 focus:outline-none focus:bg-blue-700">
-            Ir a Gestión de Ventas
-          </button>
+          
+          <!-- Tabla de Ventas -->
+          <div class="card mt-3">
+            <div class="card-body">
+              <h5 class="card-title">Lista de Ventas</h5>
+              <!-- Tabla -->
+              <table class="table datatable">
+                <thead>
+                  <tr>
+                    <th>Producto</th>
+                    <th>Comprador</th>
+                    <th>Fecha de Venta</th>
+                    <th>Acciones</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Tomate</td>
+                    <td>Mercado Central Bogotá</td>
+                    <td>2024-08-03</td>
+                    <td>
+                      <button class="btn btn-primary btn-sm">Ver Detalles</button>
+                      <button class="btn btn-danger btn-sm">Cancelar</button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Papa</td>
+                    <td>Supermercado Local</td>
+                    <td>2024-08-05</td>
+                    <td>
+                      <button class="btn btn-primary btn-sm">Ver Detalles</button>
+                      <button class="btn btn-danger btn-sm">Cancelar</button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
         </div>
 
         <!-- Pestaña Análisis de Mercado -->
@@ -78,34 +117,50 @@
 
   <!-- Script para manejar las pestañas y resaltar la pestaña activa -->
   <script>
-  // JavaScript para manejar el cambio de pestañas y resaltar la pestaña activa
-  document.querySelectorAll('.tab-link').forEach((tabLink) => {
-    tabLink.addEventListener('click', (event) => {
-      event.preventDefault();
-      const targetId = event.target.getAttribute('href').substring(1);
+    // JavaScript para manejar el cambio de pestañas y resaltar la pestaña activa
+    document.querySelectorAll('.tab-link').forEach((tabLink) => {
+      tabLink.addEventListener('click', (event) => {
+        event.preventDefault();
+        const targetId = event.target.getAttribute('href').substring(1);
 
-      // Ocultar todas las secciones de contenido
-      document.querySelectorAll('.tab-content').forEach((tabContent) => {
-        tabContent.classList.add('hidden');
+        // Ocultar todas las secciones de contenido
+        document.querySelectorAll('.tab-content').forEach((tabContent) => {
+          tabContent.classList.add('hidden');
+        });
+
+        // Mostrar la sección de contenido correspondiente
+        document.getElementById(targetId).classList.remove('hidden');
+
+        // Quitar la clase activa de todas las pestañas
+        document.querySelectorAll('.tab-link').forEach((link) => {
+          link.classList.remove('tab-active', 'border-b-2', 'border-blue-500');
+        });
+
+        // Agregar la clase activa a la pestaña seleccionada
+        event.target.classList.add('tab-active', 'border-b-2', 'border-blue-500');
       });
-
-      // Mostrar la sección de contenido correspondiente
-      document.getElementById(targetId).classList.remove('hidden');
-
-      // Quitar la clase activa de todas las pestañas
-      document.querySelectorAll('.tab-link').forEach((link) => {
-        link.classList.remove('tab-active', 'border-b-2', 'border-blue-500');
-      });
-
-      // Agregar la clase activa a la pestaña seleccionada
-      event.target.classList.add('tab-active', 'border-b-2', 'border-blue-500');
     });
-  });
 
-  // Código para inicializar la primera pestaña como activa
-  document.querySelector('.tab-link').classList.add('tab-active', 'border-b-2', 'border-blue-500');
-  document.querySelector('.tab-content').classList.remove('hidden');
+    // Código para inicializar la primera pestaña como activa
+    document.querySelector('.tab-link').classList.add('tab-active', 'border-b-2', 'border-blue-500');
+    document.querySelector('.tab-content').classList.remove('hidden');
   </script>
+
+  <!-- Vendor JS Files -->
+  <script src="/dashboard/NiceAdmin/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="/dashboard/NiceAdmin/assets/vendor/simple-datatables/simple-datatables.js"></script>
+  
+  <!-- Inicializar DataTable -->
+  <script>
+    // Inicializa la tabla de ventas con DataTables
+    let dataTable = new simpleDatatables.DataTable(".datatable", {
+        searchable: true,
+        fixedHeight: true,
+        perPage: 10
+    });
+  </script>
+
+  <script src="/dashboard/NiceAdmin/assets/js/main.js"></script>
 
 </body>
 </html>

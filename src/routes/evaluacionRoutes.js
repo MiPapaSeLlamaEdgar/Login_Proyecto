@@ -1,14 +1,13 @@
-// src/routes/evaluacionRoutes.js
 const express = require('express');
 const router = express.Router();
-const authorizeRoles = require('../middleware/authMiddleware.js'); // Importar middleware de autorización
-const openaiService = require('../../openaiService'); // Ajusta la ruta
+const authorizeRoles = require('../middleware/authMiddleware.js');
+const openaiService = require('../../openaiService');
 
 // Ruta GET para renderizar la página de evaluación
 router.get('/dashboard/functions/evaluacion', authorizeRoles(['Agricultores/Productores']), (req, res) => {
     res.render('dashboard/functions/evaluacion', {
-        layout: 'main', // Asegúrate de especificar el layout 'main'
-        user: req.session.user, // Asegura pasar el usuario y el rol a la vista
+        layout: 'main',
+        user: req.session.user,
         role: req.session.role
     });
 });
@@ -23,7 +22,6 @@ router.post('/dashboard/functions/submit-evaluation', authorizeRoles(['Agriculto
     } = req.body;
 
     try {
-        // Parte 1: Análisis Técnico con solicitud de porcentaje
         const technicalMessage = `
         Proporciona una evaluación técnica para el producto "${productName}" con un puntaje porcentual del 0% al 100% para cada uno de los siguientes factores:
         
@@ -38,9 +36,7 @@ router.post('/dashboard/functions/submit-evaluation', authorizeRoles(['Agriculto
         `;
 
         const technicalResponse = await openaiService.getChatGPTResponse(technicalMessage);
-        console.log('Technical Response:', technicalResponse); // Verificar la respuesta en la consola
 
-        // Parte 2: Análisis Económico con solicitud de porcentaje
         const economicMessage = `
         Proporciona una evaluación económica para el producto "${productName}" con un puntaje porcentual del 0% al 100% para cada uno de los siguientes factores:
 
@@ -56,9 +52,7 @@ router.post('/dashboard/functions/submit-evaluation', authorizeRoles(['Agriculto
         `;
 
         const economicResponse = await openaiService.getChatGPTResponse(economicMessage);
-        console.log('Economic Response:', economicResponse); // Verificar la respuesta en la consola
 
-        // Parte 3: Análisis Comercial y Funcional con solicitud de porcentaje
         const commercialMessage = `
         Proporciona una evaluación comercial y funcional para el producto "${productName}" con un puntaje porcentual del 0% al 100% para cada uno de los siguientes factores:
 
@@ -69,16 +63,14 @@ router.post('/dashboard/functions/submit-evaluation', authorizeRoles(['Agriculto
         `;
 
         const commercialResponse = await openaiService.getChatGPTResponse(commercialMessage);
-        console.log('Commercial Response:', commercialResponse); // Verificar la respuesta en la consola
 
-        // Combina todas las respuestas
         const combinedResponse = `
         **Análisis Técnico**\n${technicalResponse}\n
         **Análisis Económico**\n${economicResponse}\n
         **Análisis Comercial y Funcional**\n${commercialResponse}
         `;
 
-        res.json({ response: combinedResponse.trim() }); // Usar trim para eliminar espacios en blanco adicionales
+        res.status(200).json({ response: combinedResponse.trim() });
     } catch (error) {
         console.error('Error al procesar la evaluación:', error.message);
         res.status(500).json({ error: 'Error al evaluar la viabilidad del producto' });

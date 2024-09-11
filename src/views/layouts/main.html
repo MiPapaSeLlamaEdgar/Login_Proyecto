@@ -5,82 +5,74 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{title}}</title>
     <!-- Tailwind CSS Link -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.0.1/tailwind.min.css">
-    <!-- Fontawesome Link -->
-    <link href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" rel="stylesheet">
-    <style>
-        .bg-custom-green {
-            background-color: #66cdaa; /* Color verde claro */
-        }
-    </style>
 </head>
 <body class="bg-gray-200">
-    <nav class="flex py-5 bg-white text-black px-24 items-center relative">
-        <div class="flex items-center w-1/2 px-12">
+    <nav class="flex py-5 bg-white text-black px-4 items-center relative w-full">
+        <div class="flex items-center w-1/2 px-4">
             <img src="/img/AgroNexo.png" alt="Logo AgroNexo" class="h-14 w-14 mr-2">
             <h1 class="text-2xl font-bold text-black">AgroNexo</h1>
         </div>
-        <ul class="w-1/2 px-16 ml-auto flex justify-end items-center">
+        <ul class="w-1/2 px-4 ml-auto flex justify-end items-center">
             {{#if user}}
                 <li class="nav-item px-4 flex items-center">
                     <p class="font-semibold mr-2">{{user.name}}</p>
                     <span class="text-sm bg-custom-green px-2 py-1 rounded">{{user.role}}</span>
                 </li>
-
                 <!-- Menú basado en roles -->
                 {{#ifCond user.role '==' 'Agricultores/Productores'}}
                     <li class="nav-item px-4 flex items-center">
-                        <a href="/dashboard/functions/evaluacion" class="nav-link">
-                            <i class="fas fa-seedling" title="Evaluación de Viabilidad"></i> Evaluación
+                        <a href="/dashboard/functions/evaluacion" class="nav-link flex items-center">
+                            <i class="fas fa-seedling mr-2" title="Evaluación de Viabilidad"></i> Evaluación
                         </a>
                     </li>
                     <li class="nav-item px-4 flex items-center">
-                        <a href="/productos-agricolas" class="nav-link">
-                            <i class="fas fa-tractor" title="Productos Agrícolas"></i> Productos Agrícolas
+                        <a href="/productos-agricolas" class="nav-link flex items-center">
+                            <i class="fas fa-tractor mr-2" title="Productos Agrícolas"></i> Productos Agrícolas
                         </a>
                     </li>
                 {{/ifCond}}
                 {{#ifCond user.role '==' 'Comerciantes de Productos Agrícolas'}}
                     <li class="nav-item px-4 flex items-center">
-                        <a href="/dashboard/functions/comercial" class="nav-link">
-                            <i class="fas fa-shopping-cart" title="Comercio de Productos"></i> Comercio
+                        <a href="/dashboard/functions/comercial" class="nav-link flex items-center">
+                            <i class="fas fa-shopping-cart mr-2" title="Comercio de Productos"></i> Comercio
                         </a>
                     </li>
                     <li class="nav-item px-4 flex items-center">
-                        <a href="/historial-comercio" class="nav-link">
-                            <i class="fas fa-history" title="Historial de Comercio"></i> Historial de Comercio
+                        <a href="/historial-comercio" class="nav-link flex items-center">
+                            <i class="fas fa-history mr-2" title="Historial de Comercio"></i> Historial de Comercio
                         </a>
                     </li>
                 {{/ifCond}}
                 {{#ifCond user.role '==' 'Usuarios'}}
                     <li class="nav-item px-4 flex items-center">
-                        <a href="/user-dashboard" class="nav-link">
-                            <i class="fas fa-user" title="Dashboard de Usuario"></i> Dashboard Usuario
+                        <a href="/user-dashboard" class="nav-link flex items-center">
+                            <i class="fas fa-user mr-2" title="Dashboard de Usuario"></i> Dashboard Usuario
                         </a>
                     </li>
                 {{/ifCond}}
                 {{#ifCond user.role '==' 'Administrador'}}
                     <li class="nav-item px-4 flex items-center">
-                        <a href="/admin-panel" class="nav-link">
-                            <i class="fas fa-tools" title="Panel de Administrador"></i> Admin Panel
+                        <a href="/admin-panel" class="nav-link flex items-center">
+                            <i class="fas fa-tools mr-2" title="Panel de Administrador"></i> Admin Panel
                         </a>
                     </li>
                 {{/ifCond}}
-
                 <!-- Íconos de Font Awesome -->
                 <li class="nav-item px-4 flex items-center">
-                    <a href="/dashboard/functions/edit-profile" class="nav-link">
-                        <i class="fas fa-user-edit" title="Editar Perfil"></i>
+                    <a href="/dashboard/functions/edit-profile" class="nav-link flex items-center">
+                        <i class="fas fa-user-edit mr-2" title="Editar Perfil"></i>
                     </a>
                 </li>
                 <li class="nav-item px-4 flex items-center">
-                    <a href="/history" class="nav-link">
-                        <i class="fas fa-history" title="Historial"></i>
+                    <a href="/history" class="nav-link flex items-center">
+                        <i class="fas fa-history mr-2" title="Historial"></i>
                     </a>
                 </li>
                 <li class="nav-item px-4 flex items-center">
-                    <a href="/logout" class="nav-link">
-                        <i class="fas fa-sign-out-alt" title="Cerrar Sesión"></i>
+                    <a href="/logout" class="nav-link flex items-center">
+                        <i class="fas fa-sign-out-alt mr-2" title="Cerrar Sesión"></i>
                     </a>
                 </li>
             {{else}}
@@ -99,7 +91,7 @@
     </nav>
 
     <!-- Contenido de la página -->
-    <div class="container mx-auto mt-10">
+    <div class="w-full mt-0 px-09">
         {{{body}}}
     </div>
 </body>

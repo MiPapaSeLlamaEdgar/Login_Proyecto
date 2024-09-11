@@ -4,30 +4,48 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Chat con GPT</title>
+  <!-- Tailwind CSS Link -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.0.1/tailwind.min.css">
+  <style>
+    body {
+      background-color: #f7fafc;
+      margin: 0;
+    }
+  </style>
 </head>
-<body>
-  <h1>Chat con GPT</h1>
-  <form id="chat-form">
-    <input type="text" id="message" name="message" placeholder="Escribe tu mensaje">
-    <button type="submit">Enviar</button>
-  </form>
-  <div id="response"></div>
+<body class="flex items-center justify-center min-h-screen">
+  <div class="bg-white shadow-md rounded-lg w-full max-w-lg p-6">
+    <h1 class="text-4xl font-bold mb-6 text-gray-800 text-center">Chat con GPT</h1>
+    <form id="chat-form" class="flex flex-col space-y-4">
+      <input type="text" id="message" name="message" placeholder="Escribe tu mensaje"
+             class="border border-gray-300 rounded-md p-3 text-lg placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-green-500">
+      <button type="submit" 
+              class="bg-green-500 text-white rounded-md p-3 text-lg font-semibold hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500">
+        Enviar
+      </button>
+    </form>
+    <div id="response" class="mt-6 text-lg text-gray-700"></div>
+  </div>
 
   <script>
     document.getElementById('chat-form').addEventListener('submit', async function(e) {
       e.preventDefault();
       const message = document.getElementById('message').value;
 
-      const response = await fetch('/chat', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ message })
-      });
+      try {
+        const response = await fetch('/chat', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ message })
+        });
 
-      const data = await response.json();
-      document.getElementById('response').textContent = data.response || 'Error: ' + data.error;
+        const data = await response.json();
+        document.getElementById('response').textContent = data.response || 'Error: ' + data.error;
+      } catch (error) {
+        document.getElementById('response').textContent = 'Error: ' + error.message;
+      }
     });
   </script>
 </body>

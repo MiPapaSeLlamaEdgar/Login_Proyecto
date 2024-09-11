@@ -1,0 +1,257 @@
+/* Estilos generales */
+html, body {
+    font-size: 15px;
+    line-height: 1.52;
+    color: #2F4F4F; /* Texto verde oscuro */
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 400;
+    overflow-x: hidden;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    background-color: #FFFFFF; /* Fondo blanco */
+    box-sizing: border-box;
+}
+
+* {
+    box-sizing: inherit;
+}
+
+/* Estilo del banner */
+#banner {
+    background: url('../img/banner-bg.webp') no-repeat center top;
+    background-size: cover;
+    min-height: 700px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+}
+
+.inner {
+    padding: 20px;
+    background-color: rgba(255, 255, 255, 0.8);
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.header-h {
+    color: #006400;
+    font-size: 46px;
+    font-family: 'Satisfy', sans-serif;
+    font-weight: 300;
+    margin-bottom: 20px;
+    text-align: center; /* Centra el título */
+}
+
+.header-p {
+    color: #2F4F4F;
+    font-size: 16px;
+    margin-bottom: 20px;
+}
+
+.logo-name {
+    font-family: 'Satisfy', sans-serif;
+    font-size: 65px;
+    margin-bottom: 20px;
+    color: #006400;
+    text-align: center; /* Centra el logo */
+}
+
+/* Sección de eventos */
+#event {
+    background-color: #D5F5D0;
+    padding: 60px 0;
+}
+
+#event .container {
+    display: flex;
+    justify-content: center; /* Centra el contenido */
+    align-items: flex-start;
+    max-width: 1200px;
+    margin: 0 auto;
+    flex-wrap: wrap;
+    gap: 20px; /* Espacio entre imagen y texto */
+}
+
+#event .left-images {
+    flex: 1;
+    max-width: 50%; /* Controla el ancho de la imagen */
+}
+
+#event .left-images img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+}
+
+#event .details-text {
+    background-color: rgba(46, 78, 27, 0.85);
+    padding: 20px;
+    color: #fff;
+    border-radius: 8px;
+    max-width: 50%; /* Controla el ancho del texto */
+    flex: 1;
+}
+
+#event .content-holder h2 {
+    color: #90EE90;
+    font-size: 32px;
+    padding-bottom: 15px;
+    font-family: 'Satisfy', sans-serif;
+}
+
+#event .content-holder address, 
+#event .details-text p {
+    color: #FFFFFF;
+}
+
+#event .btn-read-more {
+    background-color: #76C76B;
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 5px;
+    border: none;
+    display: inline-block;
+    transition: background-color 0.3s ease;
+    margin-top: 10px;
+}
+
+#event .btn-read-more:hover {
+    background-color: #58A34E;
+}
+
+/* Sección de contacto */
+#contact {
+    background-color: #f0f4f7;
+    padding: 40px 0;
+    border-top: 5px solid #90EE90;
+}
+
+.contact-container {
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    max-width: 1200px;
+    margin: 0 auto;
+    text-align: center; /* Centra el contenido */
+}
+
+.contact-info-row {
+    display: flex;
+    justify-content: space-around; /* Distribuye el contenido horizontalmente */
+    flex-wrap: wrap; /* Para que se ajuste en pantallas pequeñas */
+    gap: 20px; /* Espacio entre los elementos */
+    margin-bottom: 20px;
+}
+
+.contact-info {
+    flex: 1;
+    min-width: 250px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px; /* Ajuste de espacio entre los íconos y el texto */
+}
+
+.contact-info h4 {
+    margin: 0;
+    color: #006400;
+    font-weight: bold;
+}
+
+.contact-info p {
+    margin: 0;
+    color: #555;
+}
+
+.media-2 .media-left {
+    margin-right: 5px; /* Ajusta el espacio entre el ícono y el texto */
+}
+
+.contact-phone, .contact-email {
+    width: 50px;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #006400;
+    color: #ffffff;
+    border-radius: 50%;
+    margin-right: 5px; /* Asegura que el icono esté más cerca del texto */
+}
+
+.contactForm {
+    width: 100%;
+    max-width: 700px;
+    margin: 0 auto; /* Centra el formulario */
+    padding-top: 20px;
+}
+
+.contactForm .form-control {
+    width: 100%;
+    margin-bottom: 15px;
+    padding: 15px;
+    font-size: 16px;
+    border: 1px solid #ced4da;
+    border-radius: 8px;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.contactForm .form-control:focus {
+    border-color: #006400;
+    box-shadow: 0 0 8px rgba(0, 100, 0, 0.2);
+}
+
+.contactForm textarea.form-control {
+    resize: vertical;
+}
+
+.contactForm button {
+    background-color: #006400;
+    color: #fff;
+    border: none;
+    padding: 12px 30px;
+    font-size: 18px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    width: 100%; /* Botón ocupa todo el ancho */
+}
+
+.contactForm button:hover {
+    background-color: #2E8B57;
+    transform: translateY(-2px);
+}
+
+/* Ajustes responsivos */
+@media (max-width: 768px) {
+    .contact-info-row {
+        flex-direction: column; /* Apilar en dispositivos móviles */
+        align-items: center;
+    }
+
+    .contact-info {
+        justify-content: center;
+        text-align: center;
+        gap: 5px; /* Ajusta el espacio en pantallas pequeñas */
+    }
+
+    .contactForm {
+        max-width: 100%; /* El formulario ocupa todo el ancho en pantallas pequeñas */
+    }
+
+    #event .container {
+        flex-direction: column;
+    }
+
+    #event .left-images,
+    #event .details-text {
+        max-width: 100%;
+    }
+}

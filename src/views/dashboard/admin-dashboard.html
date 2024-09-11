@@ -4,9 +4,13 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Dashboard del Administrador</title>
-  <!-- Tailwind CSS Link -->
+  <!-- CSS Styles -->
+  <link href="/dashboard/NiceAdmin/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="/dashboard/NiceAdmin/assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="/dashboard/NiceAdmin/assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+  <link href="/dashboard/NiceAdmin/assets/vendor/simple-datatables/style.css" rel="stylesheet">
+  <link href="/dashboard/NiceAdmin/assets/css/style.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.0.1/tailwind.min.css">
-  <!-- Fontawesome Link -->
   <link href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" rel="stylesheet">
   <style>
     .tab-active {
@@ -38,25 +42,105 @@
           </li>
         </ul>
       </div>
-      
+
       <!-- Contenido de las pestañas -->
       <div class="p-4">
         <!-- Pestaña Gestión de Usuarios -->
         <div id="gestionUsuarios" class="tab-content">
           <h2 class="text-xl font-bold text-green-700 mb-4">Gestión de Usuarios</h2>
           <p>Aquí puedes gestionar los usuarios del sistema, agregar nuevos usuarios, editar detalles o eliminar usuarios existentes.</p>
-          <br>
-          <button onclick="window.location.href='/dashboard/functions/usuarios'" 
-          class="py-2 px-4 bg-blue-500 text-white font-semibold rounded hover:bg-blue-600 focus:outline-none focus:bg-blue-700">
-            Ir a Gestión de Usuarios
-          </button>
+          <div class="card mt-3">
+            <div class="card-body">
+              <h5 class="card-title">Lista de Usuarios</h5>
+              <!-- Tabla de Usuarios con funcionalidad de Datatables -->
+              <table class="table datatable">
+                <thead>
+                  <tr>
+                    <th>Nombre</th>
+                    <th>Email</th>
+                    <th>Rol</th>
+                    <th>Acciones</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Agricultor Uno</td>
+                    <td>agricultor1@example.com</td>
+                    <td>Agricultor</td>
+                    <td>
+                      <button class="btn btn-primary btn-sm">Editar</button>
+                      <button class="btn btn-danger btn-sm">Eliminar</button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Comerciante Uno</td>
+                    <td>comerciante1@example.com</td>
+                    <td>Comerciante</td>
+                    <td>
+                      <button class="btn btn-primary btn-sm">Editar</button>
+                      <button class="btn btn-danger btn-sm">Eliminar</button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Admin Uno</td>
+                    <td>admin1@example.com</td>
+                    <td>Administrador</td>
+                    <td>
+                      <button class="btn btn-primary btn-sm">Editar</button>
+                      <button class="btn btn-danger btn-sm">Eliminar</button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <!-- Fin Tabla de Usuarios -->
+            </div>
+          </div>
         </div>
 
         <!-- Pestaña Roles y Permisos -->
         <div id="rolesPermisos" class="tab-content hidden">
           <h2 class="text-xl font-bold text-green-700 mb-4">Roles y Permisos</h2>
           <p>Gestiona los roles y permisos de los usuarios del sistema aquí.</p>
-          <!-- Contenido adicional para gestión de roles y permisos -->
+
+          <!-- Tabla de Roles y Permisos -->
+          <div class="card mt-3">
+            <div class="card-body">
+              <h5 class="card-title">Asignar Roles</h5>
+              <!-- Tabla -->
+              <table class="table datatable">
+                <thead>
+                  <tr>
+                    <th>Usuario</th>
+                    <th>Rol Asignado</th>
+                    <th>Acciones</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Agricultor Uno</td>
+                    <td>Agricultor</td>
+                    <td>
+                      <button class="btn btn-primary btn-sm">Editar Rol</button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Comerciante Uno</td>
+                    <td>Comerciante</td>
+                    <td>
+                      <button class="btn btn-primary btn-sm">Editar Rol</button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Admin Uno</td>
+                    <td>Administrador</td>
+                    <td>
+                      <button class="btn btn-primary btn-sm">Editar Rol</button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
         </div>
 
         <!-- Pestaña Análisis y Reportes -->
@@ -78,34 +162,49 @@
 
   <!-- Script para manejar las pestañas y resaltar la pestaña activa -->
   <script>
-  // JavaScript para manejar el cambio de pestañas y resaltar la pestaña activa
-  document.querySelectorAll('.tab-link').forEach((tabLink) => {
-    tabLink.addEventListener('click', (event) => {
-      event.preventDefault();
-      const targetId = event.target.getAttribute('href').substring(1);
+    document.querySelectorAll('.tab-link').forEach((tabLink) => {
+      tabLink.addEventListener('click', (event) => {
+        event.preventDefault();
+        const targetId = event.target.getAttribute('href').substring(1);
 
-      // Ocultar todas las secciones de contenido
-      document.querySelectorAll('.tab-content').forEach((tabContent) => {
-        tabContent.classList.add('hidden');
+        // Ocultar todas las secciones de contenido
+        document.querySelectorAll('.tab-content').forEach((tabContent) => {
+          tabContent.classList.add('hidden');
+        });
+
+        // Mostrar la sección de contenido correspondiente
+        document.getElementById(targetId).classList.remove('hidden');
+
+        // Quitar la clase activa de todas las pestañas
+        document.querySelectorAll('.tab-link').forEach((link) => {
+          link.classList.remove('tab-active', 'border-b-2', 'border-blue-500');
+        });
+
+        // Agregar la clase activa a la pestaña seleccionada
+        event.target.classList.add('tab-active', 'border-b-2', 'border-blue-500');
       });
-
-      // Mostrar la sección de contenido correspondiente
-      document.getElementById(targetId).classList.remove('hidden');
-
-      // Quitar la clase activa de todas las pestañas
-      document.querySelectorAll('.tab-link').forEach((link) => {
-        link.classList.remove('tab-active', 'border-b-2', 'border-blue-500');
-      });
-
-      // Agregar la clase activa a la pestaña seleccionada
-      event.target.classList.add('tab-active', 'border-b-2', 'border-blue-500');
     });
-  });
 
-  // Código para inicializar la primera pestaña como activa
-  document.querySelector('.tab-link').classList.add('tab-active', 'border-b-2', 'border-blue-500');
-  document.querySelector('.tab-content').classList.remove('hidden');
+    // Inicializar la primera pestaña como activa
+    document.querySelector('.tab-link').classList.add('tab-active', 'border-b-2', 'border-blue-500');
+    document.querySelector('.tab-content').classList.remove('hidden');
   </script>
+
+  <!-- Vendor JS Files -->
+  <script src="/dashboard/NiceAdmin/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="/dashboard/NiceAdmin/assets/vendor/simple-datatables/simple-datatables.js"></script>
+  
+  <!-- Inicializar DataTable -->
+  <script>
+    // Inicializa la tabla con DataTables
+    let dataTable = new simpleDatatables.DataTable(".datatable", {
+        searchable: true,
+        fixedHeight: true,
+        perPage: 10
+    });
+  </script>
+
+  <script src="/dashboard/NiceAdmin/assets/js/main.js"></script>
 
 </body>
 </html>

@@ -9,69 +9,85 @@
 </head>
 <body class="bg-gray-100 flex items-center justify-center min-h-screen">
     <div class="block mx-auto my-12 p-8 bg-white w-2/3 border border-gray-200 rounded-lg shadow-lg text-gray-800">
-        {{!-- src/views/dashboard/functions/evaluacion.html --}}
         <h1 class="text-3xl font-bold text-center text-green-700">Evaluación de Viabilidad del Producto Agrícola</h1>
         <form id="evaluation-form" class="mt-4">
             <!-- Datos del Producto -->
             <div class="mb-6">
-                <h2 class="text-xl font-semibold text-green-600">Datos del Producto</h2>
-                <input type="text" name="productName" placeholder="Nombre del Producto" class="border border-gray-300 w-full text-lg placeholder-gray-500 p-2 my-2 bg-gray-100 focus:bg-white focus:border-green-500" required>
-                <textarea name="productDescription" placeholder="Descripción del Producto" class="border border-gray-300 w-full text-lg placeholder-gray-500 p-2 my-2 bg-gray-100 focus:bg-white focus:border-green-500" required></textarea>
+                <h2 class="text-2xl font-bold text-green-600">Datos del Producto</h2>
+                <label for="productName" class="block text-lg font-medium text-gray-700">Nombre del Producto</label>
+                <input type="text" id="productName" name="productName" placeholder="Nombre del Producto" class="border border-gray-300 w-full text-lg placeholder-gray-500 p-2 my-2 bg-gray-100 focus:bg-white focus:border-green-500" required>
+                <label for="productDescription" class="block text-lg font-medium text-gray-700">Descripción del Producto</label>
+                <textarea id="productDescription" name="productDescription" placeholder="Descripción del Producto" class="border border-gray-300 w-full text-lg placeholder-gray-500 p-2 my-2 bg-gray-100 focus:bg-white focus:border-green-500" required></textarea>
             </div>
 
             <!-- Evaluación Técnica -->
             <div class="mb-6">
-                <h2 class="text-xl font-semibold text-green-600">Evaluación Técnica</h2>
-                <textarea name="technicalRequirements" placeholder="Requisitos Técnicos" class="border border-gray-300 w-full text-lg placeholder-gray-500 p-2 my-2 bg-gray-100 focus:bg-white focus:border-green-500"></textarea>
-                <select name="technologyAvailability" class="border border-gray-300 w-full text-lg placeholder-gray-500 p-2 my-2 bg-gray-100 focus:bg-white focus:border-green-500">
-                    <option value="">Disponibilidad de Tecnología</option>
+                <h2 class="text-2xl font-bold text-green-600">Evaluación Técnica</h2>
+                <label for="technicalRequirements" class="block text-lg font-medium text-gray-700">Requisitos Técnicos</label>
+                <textarea id="technicalRequirements" name="technicalRequirements" placeholder="Requisitos Técnicos" class="border border-gray-300 w-full text-lg placeholder-gray-500 p-2 my-2 bg-gray-100 focus:bg-white focus:border-green-500"></textarea>
+                <label for="technologyAvailability" class="block text-lg font-medium text-gray-700">Disponibilidad de Tecnología</label>
+                <select id="technologyAvailability" name="technologyAvailability" class="border border-gray-300 w-full text-lg placeholder-gray-500 p-2 my-2 bg-gray-100 focus:bg-white focus:border-green-500">
+                    <option value="">Selecciona una opción</option>
                     <option value="Alta">Alta</option>
                     <option value="Media">Media</option>
                     <option value="Baja">Baja</option>
                 </select>
-                <textarea name="technicalComments" placeholder="Comentarios sobre la Viabilidad Técnica" class="border border-gray-300 w-full text-lg placeholder-gray-500 p-2 my-2 bg-gray-100 focus:bg-white focus:border-green-500"></textarea>
+                <label for="technicalComments" class="block text-lg font-medium text-gray-700">Comentarios sobre la Viabilidad Técnica</label>
+                <textarea id="technicalComments" name="technicalComments" placeholder="Comentarios sobre la Viabilidad Técnica" class="border border-gray-300 w-full text-lg placeholder-gray-500 p-2 my-2 bg-gray-100 focus:bg-white focus:border-green-500"></textarea>
             </div>
 
             <!-- Resultados de Pruebas de Campo -->
             <div class="mb-6">
-                <h2 class="text-xl font-semibold text-green-600">Resultados de Pruebas de Campo</h2>
-                <input type="text" name="testedRegions" placeholder="Regiones Climáticas Probadas" class="border border-gray-300 w-full text-lg placeholder-gray-500 p-2 my-2 bg-gray-100 focus:bg-white focus:border-green-500">
-                <textarea name="performanceResults" placeholder="Resultados de Rendimiento" class="border border-gray-300 w-full text-lg placeholder-gray-500 p-2 my-2 bg-gray-100 focus:bg-white focus:border-green-500"></textarea>
-                <textarea name="fieldTestComments" placeholder="Comentarios sobre Pruebas de Campo" class="border border-gray-300 w-full text-lg placeholder-gray-500 p-2 my-2 bg-gray-100 focus:bg-white focus:border-green-500"></textarea>
+                <h2 class="text-2xl font-bold text-green-600">Resultados de Pruebas de Campo</h2>
+                <label for="testedRegions" class="block text-lg font-medium text-gray-700">Regiones Climáticas Probadas</label>
+                <input type="text" id="testedRegions" name="testedRegions" placeholder="Regiones Climáticas Probadas" class="border border-gray-300 w-full text-lg placeholder-gray-500 p-2 my-2 bg-gray-100 focus:bg-white focus:border-green-500">
+                <label for="performanceResults" class="block text-lg font-medium text-gray-700">Resultados de Rendimiento</label>
+                <textarea id="performanceResults" name="performanceResults" placeholder="Resultados de Rendimiento" class="border border-gray-300 w-full text-lg placeholder-gray-500 p-2 my-2 bg-gray-100 focus:bg-white focus:border-green-500"></textarea>
+                <label for="fieldTestComments" class="block text-lg font-medium text-gray-700">Comentarios sobre Pruebas de Campo</label>
+                <textarea id="fieldTestComments" name="fieldTestComments" placeholder="Comentarios sobre Pruebas de Campo" class="border border-gray-300 w-full text-lg placeholder-gray-500 p-2 my-2 bg-gray-100 focus:bg-white focus:border-green-500"></textarea>
             </div>
 
             <!-- Viabilidad Económica -->
             <div class="mb-6">
-                <h2 class="text-xl font-semibold text-green-600">Viabilidad Económica</h2>
-                <input type="number" name="developmentCosts" placeholder="Costos de Desarrollo" class="border border-gray-300 w-full text-lg placeholder-gray-500 p-2 my-2 bg-gray-100 focus:bg-white focus:border-green-500">
-                <input type="number" name="productionCosts" placeholder="Costos de Producción" class="border border-gray-300 w-full text-lg placeholder-gray-500 p-2 my-2 bg-gray-100 focus:bg-white focus:border-green-500">
-                <input type="number" name="roiEstimate" placeholder="ROI Estimado (%)" class="border border-gray-300 w-full text-lg placeholder-gray-500 p-2 my-2 bg-gray-100 focus:bg-white focus:border-green-500">
-                <textarea name="economicComments" placeholder="Comentarios sobre Viabilidad Económica" class="border border-gray-300 w-full text-lg placeholder-gray-500 p-2 my-2 bg-gray-100 focus:bg-white focus:border-green-500"></textarea>
+                <h2 class="text-2xl font-bold text-green-600">Viabilidad Económica</h2>
+                <label for="developmentCosts" class="block text-lg font-medium text-gray-700">Costos de Desarrollo</label>
+                <input type="number" id="developmentCosts" name="developmentCosts" placeholder="Costos de Desarrollo" class="border border-gray-300 w-full text-lg placeholder-gray-500 p-2 my-2 bg-gray-100 focus:bg-white focus:border-green-500">
+                <label for="productionCosts" class="block text-lg font-medium text-gray-700">Costos de Producción</label>
+                <input type="number" id="productionCosts" name="productionCosts" placeholder="Costos de Producción" class="border border-gray-300 w-full text-lg placeholder-gray-500 p-2 my-2 bg-gray-100 focus:bg-white focus:border-green-500">
+                <label for="roiEstimate" class="block text-lg font-medium text-gray-700">ROI Estimado (%)</label>
+                <input type="number" id="roiEstimate" name="roiEstimate" placeholder="ROI Estimado (%)" class="border border-gray-300 w-full text-lg placeholder-gray-500 p-2 my-2 bg-gray-100 focus:bg-white focus:border-green-500">
+                <label for="economicComments" class="block text-lg font-medium text-gray-700">Comentarios sobre Viabilidad Económica</label>
+                <textarea id="economicComments" name="economicComments" placeholder="Comentarios sobre Viabilidad Económica" class="border border-gray-300 w-full text-lg placeholder-gray-500 p-2 my-2 bg-gray-100 focus:bg-white focus:border-green-500"></textarea>
             </div>
 
             <!-- Disponibilidad de Recursos -->
             <div class="mb-6">
-                <h2 class="text-xl font-semibold text-green-600">Disponibilidad de Recursos</h2>
-                <textarea name="requiredResources" placeholder="Recursos Necesarios" class="border border-gray-300 w-full text-lg placeholder-gray-500 p-2 my-2 bg-gray-100 focus:bg-white focus:border-green-500"></textarea>
-                <select name="resourceAvailability" class="border border-gray-300 w-full text-lg placeholder-gray-500 p-2 my-2 bg-gray-100 focus:bg-white focus:border-green-500">
-                    <option value="">Disponibilidad Actual de Recursos</option>
+                <h2 class="text-2xl font-bold text-green-600">Disponibilidad de Recursos</h2>
+                <label for="requiredResources" class="block text-lg font-medium text-gray-700">Recursos Necesarios</label>
+                <textarea id="requiredResources" name="requiredResources" placeholder="Recursos Necesarios" class="border border-gray-300 w-full text-lg placeholder-gray-500 p-2 my-2 bg-gray-100 focus:bg-white focus:border-green-500"></textarea>
+                <label for="resourceAvailability" class="block text-lg font-medium text-gray-700">Disponibilidad Actual de Recursos</label>
+                <select id="resourceAvailability" name="resourceAvailability" class="border border-gray-300 w-full text-lg placeholder-gray-500 p-2 my-2 bg-gray-100 focus:bg-white focus:border-green-500">
+                    <option value="">Selecciona una opción</option>
                     <option value="Alta">Alta</option>
                     <option value="Media">Media</option>
                     <option value="Baja">Baja</option>
                 </select>
-                <textarea name="resourceComments" placeholder="Comentarios sobre Recursos" class="border border-gray-300 w-full text-lg placeholder-gray-500 p-2 my-2 bg-gray-100 focus:bg-white focus:border-green-500"></textarea>
+                <label for="resourceComments" class="block text-lg font-medium text-gray-700">Comentarios sobre Recursos</label>
+                <textarea id="resourceComments" name="resourceComments" placeholder="Comentarios sobre Recursos" class="border border-gray-300 w-full text-lg placeholder-gray-500 p-2 my-2 bg-gray-100 focus:bg-white focus:border-green-500"></textarea>
             </div>
 
             <!-- Evaluación General -->
             <div class="mb-6">
-                <h2 class="text-xl font-semibold text-green-600">Evaluación General</h2>
-                <select name="overallViability" class="border border-gray-300 w-full text-lg placeholder-gray-500 p-2 my-2 bg-gray-100 focus:bg-white focus:border-green-500">
-                    <option value="">Viabilidad Global del Producto</option>
+                <h2 class="text-2xl font-bold text-green-600">Evaluación General</h2>
+                <label for="overallViability" class="block text-lg font-medium text-gray-700">Viabilidad Global del Producto</label>
+                <select id="overallViability" name="overallViability" class="border border-gray-300 w-full text-lg placeholder-gray-500 p-2 my-2 bg-gray-100 focus:bg-white focus:border-green-500">
+                    <option value="">Selecciona una opción</option>
                     <option value="Alta">Alta</option>
                     <option value="Media">Media</option>
                     <option value="Baja">Baja</option>
                 </select>
-                <textarea name="generalComments" placeholder="Comentarios Generales" class="border border-gray-300 w-full text-lg placeholder-gray-500 p-2 my-2 bg-gray-100 focus:bg-white focus:border-green-500"></textarea>
+                <label for="generalComments" class="block text-lg font-medium text-gray-700">Comentarios Generales</label>
+                <textarea id="generalComments" name="generalComments" placeholder="Comentarios Generales" class="border border-gray-300 w-full text-lg placeholder-gray-500 p-2 my-2 bg-gray-100 focus:bg-white focus:border-green-500"></textarea>
             </div>
 
             <button type="submit" class="rounded-md bg-green-500 w-full text-lg text-white font-semibold p-2 my-3 hover:bg-green-600 focus:bg-green-700 focus:outline-none">
@@ -94,7 +110,7 @@
             const data = Object.fromEntries(formData.entries());
     
             try {
-                const response = await fetch('/submit-evaluation', {
+                const response = await fetch('/dashboard/functions/submit-evaluation', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -107,7 +123,7 @@
                 console.log('Respuesta de ChatGPT:', result);
     
                 if (typeof result.response === 'string') {
-                    formatResponse(result.response); // Formatear respuesta en secciones con títulos en negrita
+                    formatResponse(result.response);
                 } else {
                     console.error('Formato inesperado en la respuesta de ChatGPT.');
                     alert('Error al procesar la respuesta de ChatGPT.');
@@ -119,25 +135,26 @@
         });
     
         function formatResponse(responseText) {
-            // Dividir la respuesta en secciones utilizando los títulos
-            const sections = responseText.split('\n').filter(Boolean); // Filtrar secciones vacías
+            const sections = responseText.split('\n').filter(Boolean);
             let formattedResponse = '';
     
             sections.forEach((section) => {
                 if (section.includes('**Análisis Técnico**')) {
-                    formattedResponse += `<h4 style="font-weight: bold;">Análisis Técnico</h4>`;
+                    formattedResponse += `<h4 class="text-xl font-bold">Análisis Técnico</h4>`;
                 } else if (section.includes('**Análisis Económico**')) {
-                    formattedResponse += `<h4 style="font-weight: bold;">Análisis Económico</h4>`;
+                    formattedResponse += `<h4 class="text-xl font-bold">Análisis Económico</h4>`;
                 } else if (section.includes('**Análisis Comercial y Funcional**')) {
-                    formattedResponse += `<h4 style="font-weight: bold;">Análisis Comercial y Funcional</h4>`;
+                    formattedResponse += `<h4 class="text-xl font-bold">Análisis Comercial y Funcional</h4>`;
                 } else {
                     formattedResponse += `<p>${section.trim()}</p>`;
                 }
             });
     
             const responseContainer = document.getElementById('response-container');
+            const gptResponse = document.getElementById('gpt-response');
+    
+            gptResponse.innerHTML = formattedResponse;
             responseContainer.classList.remove('hidden');
-            responseContainer.innerHTML = formattedResponse;
         }
     </script>
 </body>

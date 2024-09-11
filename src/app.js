@@ -98,6 +98,7 @@ app.use(myconnection(mysql, {
 // Configuración de archivos estáticos
 app.use(express.static(path.join(__dirname, 'public')));
 
+
 // Rutas
 app.use('/', loginRoutes);
 app.use('/', chatRoutes);

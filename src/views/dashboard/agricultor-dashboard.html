@@ -4,9 +4,13 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Dashboard del Agricultor/Productor</title>
-  <!-- Tailwind CSS Link -->
+  <!-- CSS Styles -->
+  <link href="/dashboard/NiceAdmin/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="/dashboard/NiceAdmin/assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="/dashboard/NiceAdmin/assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+  <link href="/dashboard/NiceAdmin/assets/vendor/simple-datatables/style.css" rel="stylesheet">
+  <link href="/dashboard/NiceAdmin/assets/css/style.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.0.1/tailwind.min.css">
-  <!-- Fontawesome Link -->
   <link href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" rel="stylesheet">
   <style>
     .tab-active {
@@ -45,32 +49,196 @@
         <div id="gestionProductos" class="tab-content">
           <h2 class="text-xl font-bold text-green-700 mb-4">Gestión de Productos Agrícolas</h2>
           <p>Aquí puedes gestionar tus productos agrícolas, añadir nuevos productos, editar detalles o eliminar productos existentes.</p>
-          <br>
-          <button onclick="window.location.href='/dashboard/functions/gestion-productos'" 
-          class="py-2 px-4 bg-blue-500 text-white font-semibold rounded hover:bg-blue-600 focus:outline-none focus:bg-blue-700">
-            Ir a Gestión de Productos
-          </button>
+          
+          <!-- Tabla de Productos Agrícolas (Correspondiente a la tabla ProductoAgricola) -->
+          <div class="card mt-3">
+            <div class="card-body">
+              <h5 class="card-title">Lista de Productos Agrícolas</h5>
+              <!-- Tabla -->
+              <table class="table datatable">
+                <thead>
+                  <tr>
+                    <th>Nombre del Producto</th>
+                    <th>Categoría</th>
+                    <th>Precio</th>
+                    <th>Cantidad</th>
+                    <th>Acciones</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Tomate</td>
+                    <td>Vegetal</td>
+                    <td>3.50</td>
+                    <td>100</td>
+                    <td>
+                      <button class="btn btn-primary btn-sm">Editar</button>
+                      <button class="btn btn-danger btn-sm">Eliminar</button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Papa</td>
+                    <td>Tubérculo</td>
+                    <td>1.20</td>
+                    <td>200</td>
+                    <td>
+                      <button class="btn btn-primary btn-sm">Editar</button>
+                      <button class="btn btn-danger btn-sm">Eliminar</button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Maíz</td>
+                    <td>Cereal</td>
+                    <td>2.00</td>
+                    <td>150</td>
+                    <td>
+                      <button class="btn btn-primary btn-sm">Editar</button>
+                      <button class="btn btn-danger btn-sm">Eliminar</button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
         </div>
 
-        <!-- Pestaña Planificación y Gestión de Cultivos -->
+        <!-- Pestaña Planificación y Gestión de Cultivos (Correspondiente a la tabla Cultivo) -->
         <div id="planificacionCultivos" class="tab-content hidden">
           <h2 class="text-xl font-bold text-green-700 mb-4">Planificación y Gestión de Cultivos</h2>
-          <p>Planifica y gestiona tus cultivos, estableciendo fechas de siembra y cosecha, y ajusta tus actividades de cultivo según las necesidades.</p>
-          <!-- Contenido adicional para planificación de cultivos -->
+          <p>Planifica y gestiona tus cultivos, estableciendo fechas de siembra y cosecha.</p>
+          
+          <!-- Tabla de Cultivos -->
+          <div class="card mt-3">
+            <div class="card-body">
+              <h5 class="card-title">Lista de Cultivos</h5>
+              <table class="table datatable">
+                <thead>
+                  <tr>
+                    <th>Tipo de Cultivo</th>
+                    <th>Fecha de Siembra</th>
+                    <th>Fecha de Cosecha</th>
+                    <th>Producto Asociado</th>
+                    <th>Acciones</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Tomate</td>
+                    <td>2024-03-01</td>
+                    <td>2024-06-01</td>
+                    <td>Tomate</td>
+                    <td>
+                      <button class="btn btn-primary btn-sm">Editar</button>
+                      <button class="btn btn-danger btn-sm">Eliminar</button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Papa</td>
+                    <td>2024-04-15</td>
+                    <td>2024-07-15</td>
+                    <td>Papa</td>
+                    <td>
+                      <button class="btn btn-primary btn-sm">Editar</button>
+                      <button class="btn btn-danger btn-sm">Eliminar</button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
         </div>
 
-        <!-- Pestaña Gestión de Inventarios -->
+        <!-- Pestaña Gestión de Inventarios (Correspondiente a la tabla Inventario) -->
         <div id="gestionInventarios" class="tab-content hidden">
           <h2 class="text-xl font-bold text-green-700 mb-4">Gestión de Inventarios</h2>
           <p>Gestiona el inventario de tus productos agrícolas y recibe notificaciones cuando los niveles sean bajos.</p>
-          <!-- Contenido adicional para gestión de inventarios -->
+          
+          <!-- Tabla de Inventarios -->
+          <div class="card mt-3">
+            <div class="card-body">
+              <h5 class="card-title">Inventario de Productos</h5>
+              <!-- Tabla -->
+              <table class="table datatable">
+                <thead>
+                  <tr>
+                    <th>Nombre del Producto</th>
+                    <th>Cantidad Disponible</th>
+                    <th>Fecha de Última Actualización</th>
+                    <th>Acciones</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Tomate</td>
+                    <td>80</td>
+                    <td>2024-08-01</td>
+                    <td>
+                      <button class="btn btn-primary btn-sm">Editar</button>
+                      <button class="btn btn-danger btn-sm">Eliminar</button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Papa</td>
+                    <td>180</td>
+                    <td>2024-08-01</td>
+                    <td>
+                      <button class="btn btn-primary btn-sm">Editar</button>
+                      <button class="btn btn-danger btn-sm">Eliminar</button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
         </div>
 
-        <!-- Pestaña Evaluación de Viabilidad -->
+        <!-- Pestaña Evaluación de Viabilidad (Correspondiente a la tabla Viabilidad) -->
         <div id="analisisViabilidad" class="tab-content hidden">
           <h2 class="text-xl font-bold text-green-700 mb-4">Evaluación de Viabilidad</h2>
           <p>Evalúa la viabilidad de tus productos agrícolas basándote en la demanda del mercado, costos de producción y condiciones climáticas.</p>
-          <!-- Contenido adicional para evaluación de viabilidad -->
+          
+          <!-- Tabla de Viabilidad -->
+          <div class="card mt-3">
+            <div class="card-body">
+              <h5 class="card-title">Evaluación de Viabilidad</h5>
+              <table class="table datatable">
+                <thead>
+                  <tr>
+                    <th>Producto</th>
+                    <th>Demanda de Mercado</th>
+                    <th>Costos de Producción</th>
+                    <th>Condiciones Climáticas</th>
+                    <th>ROI Estimado</th>
+                    <th>Acciones</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Tomate</td>
+                    <td>Alta</td>
+                    <td>2.50</td>
+                    <td>Favorable</td>
+                    <td>20%</td>
+                    <td>
+                      <button class="btn btn-primary btn-sm">Editar</button>
+                      <button class="btn btn-danger btn-sm">Eliminar</button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Papa</td>
+                    <td>Moderada</td>
+                    <td>1.10</td>
+                    <td>Mixto</td>
+                    <td>15%</td>
+                    <td>
+                      <button class="btn btn-primary btn-sm">Editar</button>
+                      <button class="btn btn-danger btn-sm">Eliminar</button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -78,34 +246,49 @@
 
   <!-- Script para manejar las pestañas y resaltar la pestaña activa -->
   <script>
-  // JavaScript para manejar el cambio de pestañas y resaltar la pestaña activa
-  document.querySelectorAll('.tab-link').forEach((tabLink) => {
-    tabLink.addEventListener('click', (event) => {
-      event.preventDefault();
-      const targetId = event.target.getAttribute('href').substring(1);
+    document.querySelectorAll('.tab-link').forEach((tabLink) => {
+      tabLink.addEventListener('click', (event) => {
+        event.preventDefault();
+        const targetId = event.target.getAttribute('href').substring(1);
 
-      // Ocultar todas las secciones de contenido
-      document.querySelectorAll('.tab-content').forEach((tabContent) => {
-        tabContent.classList.add('hidden');
+        // Ocultar todas las secciones de contenido
+        document.querySelectorAll('.tab-content').forEach((tabContent) => {
+          tabContent.classList.add('hidden');
+        });
+
+        // Mostrar la sección de contenido correspondiente
+        document.getElementById(targetId).classList.remove('hidden');
+
+        // Quitar la clase activa de todas las pestañas
+        document.querySelectorAll('.tab-link').forEach((link) => {
+          link.classList.remove('tab-active', 'border-b-2', 'border-blue-500');
+        });
+
+        // Agregar la clase activa a la pestaña seleccionada
+        event.target.classList.add('tab-active', 'border-b-2', 'border-blue-500');
       });
-
-      // Mostrar la sección de contenido correspondiente
-      document.getElementById(targetId).classList.remove('hidden');
-
-      // Quitar la clase activa de todas las pestañas
-      document.querySelectorAll('.tab-link').forEach((link) => {
-        link.classList.remove('tab-active', 'border-b-2', 'border-blue-500');
-      });
-
-      // Agregar la clase activa a la pestaña seleccionada
-      event.target.classList.add('tab-active', 'border-b-2', 'border-blue-500');
     });
-  });
 
-  // Código para inicializar la primera pestaña como activa
-  document.querySelector('.tab-link').classList.add('tab-active', 'border-b-2', 'border-blue-500');
-  document.querySelector('.tab-content').classList.remove('hidden');
+    // Inicializar la primera pestaña como activa
+    document.querySelector('.tab-link').classList.add('tab-active', 'border-b-2', 'border-blue-500');
+    document.querySelector('.tab-content').classList.remove('hidden');
   </script>
+
+  <!-- Vendor JS Files -->
+  <script src="/dashboard/NiceAdmin/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="/dashboard/NiceAdmin/assets/vendor/simple-datatables/simple-datatables.js"></script>
+  
+  <!-- Inicializar DataTable -->
+  <script>
+    // Inicializa la tabla con DataTables
+    let dataTable = new simpleDatatables.DataTable(".datatable", {
+        searchable: true,
+        fixedHeight: true,
+        perPage: 10
+    });
+  </script>
+
+  <script src="/dashboard/NiceAdmin/assets/js/main.js"></script>
 
 </body>
 </html>
