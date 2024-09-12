@@ -5,73 +5,205 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Actualizar Perfil</title>
   <!-- Tailwind CSS Link -->
-  <link href="/dashboard/NiceAdmin/assets/css/style.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.0.1/tailwind.min.css">
+  <style>
+    .tab-active {
+      border-bottom-width: 2px;
+      border-color: #3b82f6; /* azul-500 */
+      color: #3b82f6;
+    }
+  </style>
 </head>
-<body class="bg-gray-100 flex items-center justify-center min-h-screen">
+<body class="bg-gray-100">
 
-  <!-- Contenedor del formulario -->
-  <div class="bg-white shadow-lg rounded-lg w-full max-w-2xl mx-4 p-8">
-    <h2 class="text-2xl font-bold text-gray-800 mb-6 text-center">Actualizar Perfil</h2>
-
-    <form id="update-profile-form" action="/update-profile" method="POST" class="space-y-6">
-      <!-- Nombre -->
-      <div>
-        <label for="first_name" class="block text-sm font-medium text-gray-700">Nombre</label>
-        <input type="text" id="first_name" name="first_name" placeholder="Ingresa tu nombre" class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500">
+  <!-- Menú de navegación en forma de pestañas -->
+  <div class="container mx-auto mt-10">
+    <div class="bg-white rounded-lg shadow">
+      <!-- Barra de pestañas -->
+      <div class="border-b border-gray-200">
+        <ul class="flex">
+          <li class="mr-1">
+            <a class="tab-link bg-white inline-block py-2 px-4 text-blue-500 hover:text-blue-800 font-semibold" href="#perfil">Actualizar Perfil</a>
+          </li>
+          <li class="mr-1">
+            <a class="tab-link bg-white inline-block py-2 px-4 text-blue-500 hover:text-blue-800 font-semibold" href="#password">Actualizar Contraseña</a>
+          </li>
+        </ul>
       </div>
+      
+      <!-- Contenido de las pestañas -->
+      <div class="p-4">
+        <!-- Pestaña Actualizar Perfil -->
+        <div id="perfil" class="tab-content">
+          <h2 class="text-2xl font-bold text-gray-800 mb-6 text-center">Actualizar Perfil</h2>
 
-      <!-- Apellido -->
-      <div>
-        <label for="last_name" class="block text-sm font-medium text-gray-700">Apellido</label>
-        <input type="text" id="last_name" name="last_name" placeholder="Ingresa tu apellido" class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500">
-      </div>
+          <form id="update-profile-form" class="space-y-6">
+            <!-- Nombre -->
+            <div>
+              <label for="first_name" class="block text-sm font-medium text-gray-700">Nombre</label>
+              <input type="text" id="first_name" name="first_name" placeholder="Ingresa tu nombre" class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500">
+            </div>
 
-      <!-- Tipo de Documento -->
-      <div>
-        <label for="document_type" class="block text-sm font-medium text-gray-700">Tipo de Documento</label>
-        <select id="document_type" name="document_type" class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500">
-          <option value="CC">Cédula de Ciudadanía (CC)</option>
-          <option value="TI">Tarjeta de Identidad (TI)</option>
-          <option value="CE">Cédula de Extranjería (CE)</option>
-          <option value="PAS">Pasaporte (PAS)</option>
-        </select>
-      </div>
+            <!-- Apellido -->
+            <div>
+              <label for="last_name" class="block text-sm font-medium text-gray-700">Apellido</label>
+              <input type="text" id="last_name" name="last_name" placeholder="Ingresa tu apellido" class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500">
+            </div>
 
-      <!-- Número de Documento -->
-      <div>
-        <label for="document_number" class="block text-sm font-medium text-gray-700">Número de Documento</label>
-        <input type="text" id="document_number" name="document_number" placeholder="Ingresa tu número de documento" class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500">
-      </div>
+            <!-- Tipo de Documento -->
+            <div>
+              <label for="document_type" class="block text-sm font-medium text-gray-700">Tipo de Documento</label>
+              <select id="document_type" name="document_type" class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500">
+                <option value="CC">Cédula de Ciudadanía (CC)</option>
+                <option value="TI">Tarjeta de Identidad (TI)</option>
+                <option value="CE">Cédula de Extranjería (CE)</option>
+                <option value="PAS">Pasaporte (PAS)</option>
+              </select>
+            </div>
 
-      <!-- Teléfono -->
-      <div>
-        <label for="phone" class="block text-sm font-medium text-gray-700">Teléfono</label>
-        <input type="tel" id="phone" name="phone" placeholder="Ingresa tu número de teléfono" class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500">
-      </div>
+            <!-- Número de Documento -->
+            <div>
+              <label for="document_number" class="block text-sm font-medium text-gray-700">Número de Documento</label>
+              <input type="text" id="document_number" name="document_number" placeholder="Ingresa tu número de documento" class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500">
+            </div>
 
-      <!-- Dirección -->
-      <div>
-        <label for="address" class="block text-sm font-medium text-gray-700">Dirección</label>
-        <input type="text" id="address" name="address" placeholder="Ingresa tu dirección" class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500">
-      </div>
+            <!-- Teléfono -->
+            <div>
+              <label for="phone" class="block text-sm font-medium text-gray-700">Teléfono</label>
+              <input type="tel" id="phone" name="phone" placeholder="Ingresa tu número de teléfono" class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500">
+            </div>
 
-      <!-- Botón de Enviar -->
-      <div>
-        <button type="submit" class="w-full py-2 px-4 bg-green-500 text-white font-semibold rounded-md hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
-          Actualizar Perfil
-        </button>
+            <!-- Dirección -->
+            <div>
+              <label for="address" class="block text-sm font-medium text-gray-700">Dirección</label>
+              <input type="text" id="address" name="address" placeholder="Ingresa tu dirección" class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500">
+            </div>
+
+            <!-- Botón de Enviar -->
+            <div>
+              <button type="submit" class="w-full py-2 px-4 bg-green-500 text-white font-semibold rounded-md hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
+                Actualizar Perfil
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <!-- Pestaña Actualizar Contraseña -->
+        <div id="password" class="tab-content hidden">
+          <h2 class="text-2xl font-bold text-gray-800 mb-6 text-center">Actualizar Contraseña</h2>
+
+          <form id="update-password-form" class="space-y-6">
+            <!-- Contraseña Actual -->
+            <div>
+              <label for="current_password" class="block text-sm font-medium text-gray-700">Contraseña Actual</label>
+              <input type="password" id="current_password" name="current_password" placeholder="Ingresa tu contraseña actual" class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500">
+            </div>
+            
+            <!-- Nueva Contraseña -->
+            <div>
+              <label for="new_password" class="block text-sm font-medium text-gray-700">Nueva Contraseña</label>
+              <input type="password" id="new_password" name="new_password" placeholder="Ingresa tu nueva contraseña" class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500">
+            </div>
+          
+            <!-- Confirmar Nueva Contraseña -->
+            <div>
+              <label for="confirm_password" class="block text-sm font-medium text-gray-700">Confirmar Nueva Contraseña</label>
+              <input type="password" id="confirm_password" name="confirm_password" placeholder="Confirma tu nueva contraseña" class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500">
+            </div>
+          
+            <!-- Botón de Enviar -->
+            <div>
+              <button type="submit" class="w-full py-2 px-4 bg-green-500 text-white font-semibold rounded-md hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
+                Actualizar Contraseña
+              </button>
+            </div>
+          </form>
+        </div>
       </div>
-    </form>
+    </div>
   </div>
 
-  <!-- Script para manejar el envío del formulario -->
+  <!-- Script para manejar las pestañas y resaltar la pestaña activa -->
   <script>
-    document.getElementById('update-profile-form').addEventListener('submit', function(event) {
+    document.querySelectorAll('.tab-link').forEach((tabLink) => {
+      tabLink.addEventListener('click', (event) => {
         event.preventDefault();
-        // Aquí puedes agregar lógica adicional antes de enviar el formulario
-        alert('Datos del perfil actualizados correctamente.');
-        this.submit(); // Envía el formulario después de la lógica adicional
+        const targetId = event.target.getAttribute('href').substring(1);
+
+        // Ocultar todas las secciones de contenido
+        document.querySelectorAll('.tab-content').forEach((tabContent) => {
+          tabContent.classList.add('hidden');
+        });
+
+        // Mostrar la sección de contenido correspondiente
+        document.getElementById(targetId).classList.remove('hidden');
+
+        // Quitar la clase activa de todas las pestañas
+        document.querySelectorAll('.tab-link').forEach((link) => {
+          link.classList.remove('tab-active', 'border-b-2', 'border-blue-500');
+        });
+
+        // Agregar la clase activa a la pestaña seleccionada
+        event.target.classList.add('tab-active', 'border-b-2', 'border-blue-500');
+      });
+    });
+
+    // Inicializar la primera pestaña como activa
+    document.querySelector('.tab-link').classList.add('tab-active', 'border-b-2', 'border-blue-500');
+    document.querySelector('.tab-content').classList.remove('hidden');
+
+    // Función para mostrar mensajes de alerta
+    function showAlert(message, isError = false) {
+      const alertDiv = document.createElement('div');
+      alertDiv.textContent = message;
+      alertDiv.className = `fixed top-0 left-0 right-0 p-4 text-center text-white ${isError ? 'bg-red-500' : 'bg-green-500'}`;
+      document.body.appendChild(alertDiv);
+      setTimeout(() => alertDiv.remove(), 3000);
+    }
+
+    // Manejar la actualización del perfil
+    document.getElementById('update-profile-form').addEventListener('submit', async function(event) {
+      event.preventDefault();
+      const formData = new FormData(this);
+      try {
+        const response = await fetch('/update-profile', {
+          method: 'POST',
+          body: formData
+        });
+        const data = await response.text();
+        showAlert(data);
+      } catch (error) {
+        console.error('Error:', error);
+        showAlert('Hubo un error al actualizar el perfil.', true);
+      }
+    });
+
+    // Manejar la actualización de la contraseña
+    document.getElementById('update-password-form').addEventListener('submit', async function(event) {
+      event.preventDefault();
+      const newPassword = document.getElementById('new_password').value;
+      const confirmPassword = document.getElementById('confirm_password').value;
+
+      if (newPassword !== confirmPassword) {
+        showAlert('Las contraseñas no coinciden.', true);
+        return;
+      }
+
+      const formData = new FormData(this);
+      try {
+        const response = await fetch('/update-password', {
+          method: 'POST',
+          body: formData
+        });
+        const data = await response.text();
+        showAlert(data);
+        if (response.ok) {
+          this.reset();
+        }
+      } catch (error) {
+        console.error('Error:', error);
+        showAlert('Hubo un error al actualizar la contraseña.', true);
+      }
     });
   </script>
 

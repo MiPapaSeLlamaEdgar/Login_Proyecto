@@ -109,9 +109,8 @@
     </div>
   </div>
 
-  <!-- Script para manejar las pestañas y resaltar la pestaña activa -->
-  <script>
-  // JavaScript para manejar el cambio de pestañas y resaltar la pestaña activa
+ <!-- Script para manejar las pestañas y resaltar la pestaña activa -->
+ <script>
   document.querySelectorAll('.tab-link').forEach((tabLink) => {
     tabLink.addEventListener('click', (event) => {
       event.preventDefault();
@@ -132,13 +131,51 @@
 
       // Agregar la clase activa a la pestaña seleccionada
       event.target.classList.add('tab-active', 'border-b-2', 'border-blue-500');
+
+      // Forzar redimensionamiento cuando se cambia de pestaña
+      if (targetId === 'rolesPermisos') {
+        dataTableRoles.refresh();
+      } else if (targetId === 'gestionUsuarios') {
+        dataTableUsuarios.refresh();
+      }
     });
   });
 
-  // Código para inicializar la primera pestaña como activa
-  document.querySelector('.tab-link').classList.add('tab-active', 'border-b-2', 'border-blue-500');
-  document.querySelector('.tab-content').classList.remove('hidden');
-  </script>
+  // Inicializar la primera pestaña como activa al cargar la página
+  window.onload = function() {
+    // Ocultar todas las pestañas
+    document.querySelectorAll('.tab-content').forEach((tabContent) => {
+      tabContent.classList.add('hidden');
+    });
+
+    // Mostrar la primera pestaña (Gestión de Usuarios)
+    document.getElementById('gestionUsuarios').classList.remove('hidden');
+    document.querySelector('.tab-link').classList.add('tab-active', 'border-b-2', 'border-blue-500');
+  };
+</script>
+
+<!-- Vendor JS Files -->
+<script src="/dashboard/NiceAdmin/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="/dashboard/NiceAdmin/assets/vendor/simple-datatables/simple-datatables.js"></script>
+
+<!-- Inicializar DataTable -->
+<script>
+  // Inicializa la tabla de usuarios con DataTables
+  let dataTableUsuarios = new simpleDatatables.DataTable("#usuariosTable", {
+      searchable: true,
+      fixedHeight: true,
+      perPage: 10
+  });
+  
+  // Inicializa la tabla de roles con DataTables
+  let dataTableRoles = new simpleDatatables.DataTable("#rolesTable", {
+      searchable: true,
+      fixedHeight: true,
+      perPage: 10
+  });
+</script>
+
+<script src="/dashboard/NiceAdmin/assets/js/main.js"></script>
 
 </body>
 </html>

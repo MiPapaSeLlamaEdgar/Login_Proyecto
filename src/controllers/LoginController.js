@@ -34,7 +34,6 @@ async function auth(req, res) {
             const isMatch = await bcrypt.compare(data.password, user.password);
 
             if (isMatch) {
-                // Get the user role
                 const [roles] = await req.db.query(
                     'SELECT r.name FROM Roles r INNER JOIN UserRoles ur ON r.id = ur.role_id WHERE ur.user_email = ?',
                     [user.email]
@@ -43,14 +42,12 @@ async function auth(req, res) {
                 if (roles.length > 0) {
                     const userRole = roles[0].name.trim();
 
-                    // Regenerate the session to prevent session fixation
                     req.session.regenerate(async (err) => {
                         if (err) {
                             console.error('Error regenerating session:', err);
-                            return res.status(500).json({ success: false, message: 'Error starting session.' });
+                            return res.render('login/login', { error: 'Error al iniciar la sesión. Inténtalo de nuevo.' });
                         }
 
-                        // Set user details in the session
                         req.session.loggedin = true;
                         req.session.user = {
                             email: user.email,
@@ -64,14 +61,12 @@ async function auth(req, res) {
                             address: user.address
                         };
 
-                        // Save the session and redirect based on user role
                         req.session.save((err) => {
                             if (err) {
                                 console.error('Error saving session:', err);
-                                return res.status(500).json({ success: false, message: 'Error starting session.' });
+                                return res.render('login/login', { error: 'Error al guardar la sesión. Inténtalo de nuevo.' });
                             }
 
-                            // Redirect based on user role
                             switch (userRole) {
                                 case 'Administrador':
                                     return res.redirect('/admin-dashboard');
@@ -85,20 +80,17 @@ async function auth(req, res) {
                         });
                     });
                 } else {
-                    console.error('User has no assigned role.');
-                    return res.render('login/login', { error: 'User has no assigned role.' });
+                    return res.render('login/login', { error: 'El usuario no tiene ningún rol asignado.' });
                 }
             } else {
-                console.error('Incorrect password.');
-                return res.render('login/login', { error: 'Incorrect password.' });
+                return res.render('login/login', { error: 'Contraseña incorrecta.' });
             }
         } else {
-            console.error('No user exists with that email.');
-            return res.render('login/login', { error: 'No user exists with that email.' });
+            return res.render('login/login', { error: 'No existe un usuario con ese correo electrónico.' });
         }
     } catch (err) {
         console.error('Error querying the database:', err);
-        return res.render('login/login', { error: 'Error querying the database.' });
+        return res.render('login/login', { error: 'Error al consultar la base de datos.' });
     }
 }
 
@@ -110,44 +102,34 @@ function register(req, res) {
 // Handle new user registration using async/await
 async function storeUser(req, res) {
     const { email, name, password, role } = req.body;
-    const userRole = role || 'Usuarios'; // Set "Usuarios" as default if no role is selected
+    const userRole = role || 'Usuarios';
 
     try {
-        // Check if the user already exists
         const [userdata] = await req.db.query('SELECT * FROM Users WHERE email = ?', [email]);
 
         if (userdata.length > 0) {
-            console.log('User already created');
-            return res.render('login/register', { error: 'User already registered with this email.' });
+            return res.render('login/register', { error: 'El usuario ya está registrado con este correo electrónico.' });
         } else {
-            // Hash the password
             const hash = await bcrypt.hash(password, 12);
             const userData = { email, name, password: hash };
 
-            // Start transaction
             await req.db.beginTransaction();
-
-            // Insert user into 'Users' table
             await req.db.query('INSERT INTO Users SET ?', [userData]);
-
-            // Insert user role into 'UserRoles' table
             await req.db.query(
                 'INSERT INTO UserRoles (user_email, role_id) VALUES (?, (SELECT id FROM Roles WHERE name = ?))',
                 [email, userRole]
             );
-
-            // Commit the transaction
             await req.db.commit();
 
-            // Redirect to login after successful registration
-            res.redirect('/login');
+            return res.redirect('/login');
         }
     } catch (err) {
         console.error('Error during registration process:', err);
-        await req.db.rollback(); // Rollback transaction if there's an error
-        return res.render('login/register', { error: 'Error registering user.' });
+        await req.db.rollback();
+        return res.render('login/register', { error: 'Hubo un error al registrar al usuario.' });
     }
 }
+
 
 // Function to display admin page
 function admin(req, res) {
@@ -225,21 +207,19 @@ async function updateProfile(req, res) {
     const email = req.session.user.email;
 
     try {
-        // Update user profile in the database
         const [result] = await req.db.query(
             'UPDATE Users SET first_name = ?, last_name = ?, document_type = ?, document_number = ?, phone = ?, address = ? WHERE email = ?',
             [first_name, last_name, document_type, document_number, phone, address, email]
         );
 
-        // Update the session user data
         req.session.user = { ...req.session.user, first_name, last_name, document_type, document_number, phone, address };
-
-        return res.render('dashboard/functions/edit_profile', { success: 'Profile updated successfully.', user: req.session.user });
+        return res.render('dashboard/functions/edit_profile', { success: 'Perfil actualizado con éxito.', user: req.session.user });
     } catch (err) {
         console.error('Error updating profile data:', err);
-        return res.render('dashboard/functions/edit_profile', { error: 'Error updating profile.', user: req.session.user });
+        return res.render('dashboard/functions/edit_profile', { error: 'Error al actualizar el perfil.', user: req.session.user });
     }
 }
+
 
 module.exports = {
     login,

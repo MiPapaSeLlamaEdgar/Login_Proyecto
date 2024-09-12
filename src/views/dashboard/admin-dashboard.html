@@ -12,49 +12,9 @@
   <link href="/dashboard/NiceAdmin/assets/css/style.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.0.1/tailwind.min.css">
   <link href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" rel="stylesheet">
-  <style>
-    .tab-bar {
-      background: rgb(189, 189, 189);
-      border-radius: 4px;
-      padding: 0.5rem 0;
-    }
-
-    .tab-link {
-      position: relative;
-      display: inline-block;
-      padding: 0.5rem 1rem;
-      font-weight: 600;
-      color: #000000;
-      text-decoration: none;
-      transition: color 0.3s ease, border 0.3s ease;
-      border-radius: 4px;
-    }
-    
-    .tab-link::before {
-      content: '';
-      position: absolute;
-      left: 0;
-      bottom: 0;
-      width: 100%;
-      height: 4px;
-      background: linear-gradient(90deg, red, purple, blue);
-      opacity: 0;
-      transition: opacity 0.3s ease;
-    }
-
-    .tab-link:hover::before,
-    .tab-link.tab-active::before {
-      opacity: 1;
-    }
-
-    .tab-active {
-      color: #3b82f6;
-    }
-  </style>
 </head>
 <body class="bg-gray-100">
 
-  <!-- Menú de navegación en forma de pestañas -->
   <div class="container mx-auto mt-10">
     <div class="bg-white rounded-lg shadow">
       <!-- Barra de pestañas -->
@@ -71,14 +31,14 @@
           </li>
         </ul>
       </div>
-
+  
       <!-- Contenido de las pestañas -->
       <div class="p-4">
         <!-- Pestaña Análisis y Reportes -->
         <div id="analisis" class="tab-content hidden custom-height">
           <h2 class="text-xl font-bold text-green-700 mb-4">Análisis y Reportes</h2>
           <p>Accede a informes y análisis detallados del uso y rendimiento del sistema.</p>
-
+  
           <!-- Sección de tarjetas con métricas clave -->
           <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
             <div class="bg-white p-4 shadow rounded-lg">
@@ -94,7 +54,7 @@
               <p class="text-3xl text-green-600">320 ms</p>
             </div>
           </div>
-
+  
           <!-- Filtros para los reportes -->
           <div class="bg-white p-4 shadow rounded-lg mb-4">
             <h4 class="text-lg font-semibold mb-2">Filtros de Reportes</h4>
@@ -119,12 +79,12 @@
             </div>
             <button class="bg-blue-500 text-white px-4 py-2 rounded-lg">Aplicar Filtros</button>
           </div>
-
+  
           <!-- Tabla de Reportes -->
           <div class="card mt-3">
             <div class="card-body">
               <h5 class="card-title">Detalles de uso del sistema</h5>
-              <table class="table datatable">
+              <table class="table datatable" id="reportesTable">
                 <thead>
                   <tr>
                     <th>Usuario</th>
@@ -153,7 +113,7 @@
               </table>
             </div>
           </div>
-
+  
           <!-- Botón de descarga de reportes -->
           <div class="mt-4">
             <button class="bg-green-500 text-white px-4 py-2 rounded-lg">
@@ -161,57 +121,38 @@
             </button>
           </div>
         </div>
-
-        <!-- Pestaña Gestión de Usuarios -->
-        <div id="gestionUsuarios" class="tab-content">
-          <h2 class="text-xl font-bold text-green-700 mb-4">Gestión de Usuarios</h2>
-          <p>Aquí puedes gestionar los usuarios del sistema, agregar nuevos usuarios, editar detalles o eliminar usuarios existentes.</p>
-          <div class="card mt-3">
-            <div class="card-body">
-              <h5 class="card-title">Lista de Usuarios</h5>
-              <table class="table datatable" id="usuariosTable">
-                <thead>
-                  <tr>
-                    <th>Nombre</th>
-                    <th>Email</th>
-                    <th>Rol</th>
-                    <th>Acciones</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>Agricultor Uno</td>
-                    <td>agricultor1@example.com</td>
-                    <td>Agricultor</td>
-                    <td>
-                      <button class="btn btn-primary btn-sm">Editar</button>
-                      <button class="btn btn-danger btn-sm">Eliminar</button>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>Comerciante Uno</td>
-                    <td>comerciante1@example.com</td>
-                    <td>Comerciante</td>
-                    <td>
-                      <button class="btn btn-primary btn-sm">Editar</button>
-                      <button class="btn btn-danger btn-sm">Eliminar</button>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>Admin Uno</td>
-                    <td>admin1@example.com</td>
-                    <td>Administrador</td>
-                    <td>
-                      <button class="btn btn-primary btn-sm">Editar</button>
-                      <button class="btn btn-danger btn-sm">Eliminar</button>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
+  
+        <!-- Modal de edición -->
+        <div id="editUserModal" class="modal hidden">
+          <div class="modal-content">
+            <h4>Editar Usuario</h4>
+            <form id="editUserForm">
+              <input type="hidden" id="editUserId">
+              <label for="editUserName">Nombre:</label>
+              <input type="text" id="editUserName" name="name">
+              <label for="editUserEmail">Email:</label>
+              <input type="email" id="editUserEmail" name="email" disabled>
+              <label for="editUserRole">Rol:</label>
+              <select id="editUserRole" name="role">
+                <option value="Administrador">Administrador</option>
+                <option value="Agricultor">Agricultor</option>
+                <option value="Comerciante">Comerciante</option>
+              </select>
+              <button type="submit">Guardar Cambios</button>
+            </form>
+            <button id="closeEditModal" class="bg-red-500 text-white px-4 py-2 rounded-lg">Cerrar</button>
           </div>
         </div>
-
+  
+        <!-- Modal de confirmación de eliminación -->
+        <div id="deleteUserModal" class="modal hidden">
+          <div class="modal-content">
+            <h4>¿Está seguro de eliminar este usuario?</h4>
+            <button id="confirmDeleteUser" class="bg-red-500 text-white px-4 py-2 rounded-lg">Eliminar</button>
+            <button id="closeDeleteModal" class="bg-gray-500 text-white px-4 py-2 rounded-lg">Cancelar</button>
+          </div>
+        </div>
+  
         <!-- Pestaña Roles y Permisos -->
         <div id="rolesPermisos" class="tab-content hidden">
           <h2 class="text-xl font-bold text-green-700 mb-4">Roles y Permisos</h2>
@@ -232,21 +173,21 @@
                     <td>Agricultor Uno</td>
                     <td>Agricultor</td>
                     <td>
-                      <button class="btn btn-primary btn-sm">Editar Rol</button>
+                      <button class="btn btn-primary btn-sm" data-user-id="1" data-user-role="Agricultor">Editar Rol</button>
                     </td>
                   </tr>
                   <tr>
                     <td>Comerciante Uno</td>
                     <td>Comerciante</td>
                     <td>
-                      <button class="btn btn-primary btn-sm">Editar Rol</button>
+                      <button class="btn btn-primary btn-sm" data-user-id="2" data-user-role="Comerciante">Editar Rol</button>
                     </td>
                   </tr>
                   <tr>
                     <td>Admin Uno</td>
                     <td>Administrador</td>
                     <td>
-                      <button class="btn btn-primary btn-sm">Editar Rol</button>
+                      <button class="btn btn-primary btn-sm" data-user-id="3" data-user-role="Administrador">Editar Rol</button>
                     </td>
                   </tr>
                 </tbody>
@@ -254,79 +195,81 @@
             </div>
           </div>
         </div>
-
       </div>
     </div>
   </div>
-
- <!-- Script para manejar las pestañas y resaltar la pestaña activa -->
- <script>
-  document.querySelectorAll('.tab-link').forEach((tabLink) => {
-    tabLink.addEventListener('click', (event) => {
-      event.preventDefault();
-      const targetId = event.target.getAttribute('href').substring(1);
-
-      // Ocultar todas las secciones de contenido
+  
+  <!-- Script para manejar las pestañas -->
+  <script>
+    let dataTableUsuarios, dataTableRoles; // Definir tablas globalmente
+  
+    document.addEventListener('DOMContentLoaded', function () {
+      // Manejo de pestañas
+      document.querySelectorAll('.tab-link').forEach((tabLink) => {
+        tabLink.addEventListener('click', (event) => {
+          event.preventDefault();
+          const targetId = event.target.getAttribute('href').substring(1);
+  
+          // Ocultar todas las secciones de contenido
+          document.querySelectorAll('.tab-content').forEach((tabContent) => {
+            tabContent.classList.add('hidden');
+          });
+  
+          // Mostrar la sección de contenido correspondiente
+          document.getElementById(targetId).classList.remove('hidden');
+  
+          // Quitar la clase activa de todas las pestañas
+          document.querySelectorAll('.tab-link').forEach((link) => {
+            link.classList.remove('tab-active', 'border-b-2', 'border-blue-500');
+          });
+  
+          // Agregar la clase activa a la pestaña seleccionada
+          event.target.classList.add('tab-active', 'border-b-2', 'border-blue-500');
+  
+          // Refrescar las DataTables cuando cambies de pestaña
+          if (targetId === 'rolesPermisos' && dataTableRoles) {
+            dataTableRoles.refresh();
+          } else if (targetId === 'gestionUsuarios' && dataTableUsuarios) {
+            dataTableUsuarios.refresh();
+          }
+        });
+      });
+  
+      // Inicializar la primera pestaña como activa al cargar la página
       document.querySelectorAll('.tab-content').forEach((tabContent) => {
         tabContent.classList.add('hidden');
       });
-
-      // Mostrar la sección de contenido correspondiente
-      document.getElementById(targetId).classList.remove('hidden');
-
-      // Quitar la clase activa de todas las pestañas
-      document.querySelectorAll('.tab-link').forEach((link) => {
-        link.classList.remove('tab-active', 'border-b-2', 'border-blue-500');
-      });
-
-      // Agregar la clase activa a la pestaña seleccionada
-      event.target.classList.add('tab-active', 'border-b-2', 'border-blue-500');
-
-      // Forzar redimensionamiento cuando se cambia de pestaña
-      if (targetId === 'rolesPermisos') {
-        dataTableRoles.refresh();
-      } else if (targetId === 'gestionUsuarios') {
-        dataTableUsuarios.refresh();
+  
+      // Mostrar la primera pestaña (Gestión de Usuarios)
+      document.getElementById('gestionUsuarios').classList.remove('hidden');
+      document.querySelector('.tab-link').classList.add('tab-active', 'border-b-2', 'border-blue-500');
+    });
+  
+    // Inicializar DataTable
+    document.addEventListener('DOMContentLoaded', function () {
+      const usuariosTable = document.querySelector("#usuariosTable");
+      if (usuariosTable) {
+        dataTableUsuarios = new simpleDatatables.DataTable(usuariosTable, {
+          searchable: true,
+          fixedHeight: true,
+          perPage: 10
+        });
+      }
+  
+      const rolesTable = document.querySelector("#rolesTable");
+      if (rolesTable) {
+        dataTableRoles = new simpleDatatables.DataTable(rolesTable, {
+          searchable: true,
+          fixedHeight: true,
+          perPage: 10
+        });
       }
     });
-  });
-
-  // Inicializar la primera pestaña como activa al cargar la página
-  window.onload = function() {
-    // Ocultar todas las pestañas
-    document.querySelectorAll('.tab-content').forEach((tabContent) => {
-      tabContent.classList.add('hidden');
-    });
-
-    // Mostrar la primera pestaña (Gestión de Usuarios)
-    document.getElementById('gestionUsuarios').classList.remove('hidden');
-    document.querySelector('.tab-link').classList.add('tab-active', 'border-b-2', 'border-blue-500');
-  };
-</script>
-
-<!-- Vendor JS Files -->
-<script src="/dashboard/NiceAdmin/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-<script src="/dashboard/NiceAdmin/assets/vendor/simple-datatables/simple-datatables.js"></script>
-
-<!-- Inicializar DataTable -->
-<script>
-  // Inicializa la tabla de usuarios con DataTables
-  let dataTableUsuarios = new simpleDatatables.DataTable("#usuariosTable", {
-      searchable: true,
-      fixedHeight: true,
-      perPage: 10
-  });
+  </script>
   
-  // Inicializa la tabla de roles con DataTables
-  let dataTableRoles = new simpleDatatables.DataTable("#rolesTable", {
-      searchable: true,
-      fixedHeight: true,
-      perPage: 10
-  });
-</script>
-
-<script src="/dashboard/NiceAdmin/assets/js/main.js"></script>
-
-
+  <!-- Vendor JS Files -->
+  <script src="/dashboard/NiceAdmin/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="/dashboard/NiceAdmin/assets/vendor/simple-datatables/simple-datatables.js"></script>
+  <script src="/dashboard/NiceAdmin/assets/js/main.js"></script>
 </body>
 </html>

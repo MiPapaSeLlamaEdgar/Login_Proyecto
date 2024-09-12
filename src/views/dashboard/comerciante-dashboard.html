@@ -129,59 +129,6 @@
           
           <!-- Line Chart -->
           <div id="reportsChart"></div>
-
-          <script>
-            document.addEventListener("DOMContentLoaded", () => {
-              new ApexCharts(document.querySelector("#reportsChart"), {
-                series: [{
-                  name: 'Sales',
-                  data: [31, 40, 28, 51, 42, 82, 56],
-                }, {
-                  name: 'Revenue',
-                  data: [11, 32, 45, 32, 34, 52, 41]
-                }, {
-                  name: 'Customers',
-                  data: [15, 11, 32, 18, 9, 24, 11]
-                }],
-                chart: {
-                  height: 350,
-                  type: 'area',
-                  toolbar: {
-                    show: false
-                  },
-                },
-                markers: {
-                  size: 4
-                },
-                colors: ['#4154f1', '#2eca6a', '#ff771d'],
-                fill: {
-                  type: "gradient",
-                  gradient: {
-                    shadeIntensity: 1,
-                    opacityFrom: 0.3,
-                    opacityTo: 0.4,
-                    stops: [0, 90, 100]
-                  }
-                },
-                dataLabels: {
-                  enabled: false
-                },
-                stroke: {
-                  curve: 'smooth',
-                  width: 2
-                },
-                xaxis: {
-                  type: 'datetime',
-                  categories: ["2018-09-19T00:00:00.000Z", "2018-09-19T01:30:00.000Z", "2018-09-19T02:30:00.000Z", "2018-09-19T03:30:00.000Z", "2018-09-19T04:30:00.000Z", "2018-09-19T05:30:00.000Z", "2018-09-19T06:30:00.000Z"]
-                },
-                tooltip: {
-                  x: {
-                    format: 'dd/MM/yy HH:mm'
-                  },
-                }
-              }).render();
-            });
-          </script>
         </div>
 
         <!-- Pestaña Optimización de Ventas y Marketing -->
@@ -208,31 +155,28 @@
             </div>
           </div>
 
-          <!-- Tabla de rendimiento de productos -->
+          <!-- Tabla de Optimización de Costos -->
           <div class="card mt-3">
             <div class="card-body">
-              <h5 class="card-title">Rendimiento de Productos</h5>
+              <h5 class="card-title">Optimización de Costos</h5>
               <table class="table datatable">
                 <thead>
                   <tr>
                     <th>Producto</th>
-                    <th>Ventas</th>
-                    <th>Visitas</th>
-                    <th>Tasa de Conversión</th>
+                    <th>Costos de Producción</th>
+                    <th>Estrategias</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr>
                     <td>Tomate</td>
                     <td>$5,000</td>
-                    <td>8,000</td>
-                    <td>4.0%</td>
+                    <td>Reducción de insumos</td>
                   </tr>
                   <tr>
                     <td>Papa</td>
                     <td>$3,000</td>
-                    <td>6,500</td>
-                    <td>2.8%</td>
+                    <td>Uso de abonos orgánicos</td>
                   </tr>
                 </tbody>
               </table>
@@ -302,80 +246,94 @@
     </div>
   </div>
 
-  <!-- Script para manejar las pestañas y resaltar la pestaña activa -->
-  <script>
-    // JavaScript para manejar el cambio de pestañas y resaltar la pestaña activa
-    document.querySelectorAll('.tab-link').forEach((tabLink) => {
-      tabLink.addEventListener('click', (event) => {
-        event.preventDefault();
-        const targetId = event.target.getAttribute('href').substring(1);
+ <!-- Script para manejar las pestañas y resaltar la pestaña activa -->
+ <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+ <script>
+  document.querySelectorAll('.tab-link').forEach((tabLink) => {
+    tabLink.addEventListener('click', (event) => {
+      event.preventDefault();
+      const targetId = event.target.getAttribute('href').substring(1);
 
-        // Ocultar todas las secciones de contenido
-        document.querySelectorAll('.tab-content').forEach((tabContent) => {
-          tabContent.classList.add('hidden');
-        });
-
-        // Mostrar la sección de contenido correspondiente
-        document.getElementById(targetId).classList.remove('hidden');
-
-        // Quitar la clase activa de todas las pestañas
-        document.querySelectorAll('.tab-link').forEach((link) => {
-          link.classList.remove('tab-active', 'border-b-2', 'border-blue-500');
-        });
-
-        // Agregar la clase activa a la pestaña seleccionada
-        event.target.classList.add('tab-active', 'border-b-2', 'border-blue-500');
+      // Ocultar todas las secciones de contenido
+      document.querySelectorAll('.tab-content').forEach((tabContent) => {
+        tabContent.classList.add('hidden');
       });
-    });
 
-    // Código para inicializar la primera pestaña como activa
+      // Mostrar la sección de contenido correspondiente
+      document.getElementById(targetId).classList.remove('hidden');
+
+      // Quitar la clase activa de todas las pestañas
+      document.querySelectorAll('.tab-link').forEach((link) => {
+        link.classList.remove('tab-active', 'border-b-2', 'border-blue-500');
+      });
+
+      // Agregar la clase activa a la pestaña seleccionada
+      event.target.classList.add('tab-active', 'border-b-2', 'border-blue-500');
+
+      // Forzar redimensionamiento cuando se cambia de pestaña
+      if (targetId === 'analisisMercado') {
+        renderChart();
+      }
+    });
+  });
+
+  // Inicializar la primera pestaña como activa al cargar la página
+  window.onload = function() {
+    document.getElementById('gestionVentas').classList.remove('hidden');
     document.querySelector('.tab-link').classList.add('tab-active', 'border-b-2', 'border-blue-500');
-    document.querySelector('.tab-content').classList.remove('hidden');
-  </script>
+  };
 
-  <!-- Vendor JS Files -->
-  <script src="/dashboard/NiceAdmin/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-  <script src="/dashboard/NiceAdmin/assets/vendor/simple-datatables/simple-datatables.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+  // Función para renderizar la gráfica
+  function renderChart() {
+    var options = {
+      series: [{
+        name: 'Price Movements',
+        data: [8100, 8200, 8250, 8300, 8400, 8500, 8600, 8800, 8700, 8900, 9000, 9300, 9400]
+      }],
+      chart: {
+        height: 350,
+        type: 'area',
+        zoom: {
+          enabled: false
+        }
+      },
+      dataLabels: {
+        enabled: false
+      },
+      stroke: {
+        curve: 'smooth'
+      },
+      xaxis: {
+        type: 'datetime',
+        categories: ['14 Nov', '16 Nov', '18 Nov', '20 Nov', '22 Nov', '24 Nov', '26 Nov', '28 Nov', '30 Nov', '02 Dec', '04 Dec', '06 Dec', '08 Dec']
+      },
+      tooltip: {
+        x: {
+          format: 'dd MMM'
+        }
+      }
+    };
 
-  <!-- Inicializar DataTable -->
-  <script>
-    let dataTable = new simpleDatatables.DataTable(".datatable", {
-        searchable: true,
-        fixedHeight: true,
-        perPage: 10
-    });
-  </script>
+    var chart = new ApexCharts(document.querySelector("#reportsChart"), options);
+    chart.render();
+  }
+</script>
 
-  <!-- Gráfico de Análisis de Mercado -->
-  <script>
-    document.addEventListener("DOMContentLoaded", function () {
-      fetch('/api/ventas')
-        .then(response => response.json())
-        .then(data => {
-          let fechas = data.map(item => item.fecha);
-          let productos = data.map(item => item.producto);
-  
-          var options = {
-            series: [{
-              name: 'Ventas',
-              data: productos
-            }],
-            chart: {
-              height: 350,
-              type: 'line',
-            },
-            xaxis: {
-              categories: fechas,
-            }
-          };
-  
-          var chart = new ApexCharts(document.querySelector("#reportsChart"), options);
-          chart.render();
-        })
-        .catch(error => console.error('Error al obtener los datos:', error));
-    });
-  </script>
+<!-- Vendor JS Files -->
+<script src="/dashboard/NiceAdmin/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="/dashboard/NiceAdmin/assets/vendor/simple-datatables/simple-datatables.js"></script>
+
+<!-- Inicializar DataTable -->
+<script>
+  // Inicializa la tabla de ventas con DataTables
+  let dataTableVentas = new simpleDatatables.DataTable(".datatable", {
+      searchable: true,
+      fixedHeight: true,
+      perPage: 10
+  });
+</script>
+
+<script src="/dashboard/NiceAdmin/assets/js/main.js"></script>
 
 </body>
 </html>

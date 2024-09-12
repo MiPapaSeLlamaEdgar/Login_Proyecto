@@ -58,10 +58,12 @@ CREATE TABLE IF NOT EXISTS Viabilidad (
     FOREIGN KEY (idProducto) REFERENCES ProductoAgricola(idProducto)
 );
 
--- Tabla DatosMercado
 CREATE TABLE IF NOT EXISTS DatosMercado (
     idDatosMercado INT AUTO_INCREMENT PRIMARY KEY,
-    datosActualizados TEXT
+    fecha DATETIME NOT NULL,  -- Fecha y hora del registro
+    ventas INT,               -- Número de ventas realizadas en ese intervalo
+    ingresos DECIMAL(10, 2),  -- Total de ingresos generados en ese intervalo
+    clientes INT              -- Número de clientes en ese intervalo
 );
 
 -- Tabla Alerta
@@ -125,6 +127,17 @@ CREATE TABLE IF NOT EXISTS UserRoles (
     PRIMARY KEY (user_email, role_id)
 );
 
+-- Tabla DetallesUso para almacenar la información de uso del sistema
+CREATE TABLE IF NOT EXISTS DetallesUso (
+    idDetalle INT AUTO_INCREMENT PRIMARY KEY,
+    usuarioEmail VARCHAR(100),      -- Email del usuario, relacionado con la tabla Users
+    fecha DATETIME NOT NULL,        -- Fecha y hora de la acción
+    accion VARCHAR(255) NOT NULL,   -- Descripción de la acción realizada
+    duracionSesion VARCHAR(50),     -- Duración de la sesión (ej. '3h 20m')
+    estado VARCHAR(50) NOT NULL,    -- Estado de la acción ('Exitoso', 'Error', etc.)
+    FOREIGN KEY (usuarioEmail) REFERENCES Users(email) ON DELETE CASCADE  -- Clave foránea relacionada con Users
+);
+
 -- Insertar roles en la tabla Roles, solo los que se usan ahora más "Usuarios"
 INSERT INTO Roles (name) VALUES 
 ('Agricultores/Productores'),
@@ -176,11 +189,13 @@ VALUES
 ('Moderada', 1.10, 'Clima mixto', 'Resistente a condiciones secas', 'Media', 'Requiere ajuste de técnicas', 'Zona C', 'Rendimiento moderado', 'Pruebas muestran variabilidad',
 3.00, 15.00, 'Viabilidad moderada', 'Fertilizantes específicos', 'Media', 'Algunos recursos limitados', 'Media', 'Puede tener mercado en condiciones adecuadas', 2, 2);
 
--- Insertar datos de mercado
-INSERT INTO DatosMercado (datosActualizados)
-VALUES 
-('Demanda de tomate en aumento en Bogotá'),
-('Demanda de papa estable en regiones montañosas');
+-- Ejemplo de inserción de datos para esta tabla:
+INSERT INTO DatosMercado (fecha, ventas, ingresos, clientes) VALUES
+('2024-09-01 00:00:00', 40, 1200.50, 20),
+('2024-09-01 01:00:00', 50, 1500.75, 25),
+('2024-09-01 02:00:00', 30, 900.20, 15),
+('2024-09-01 03:00:00', 70, 2100.00, 35),
+('2024-09-01 04:00:00', 60, 1800.65, 30);
 
 -- Insertar alertas
 INSERT INTO Alerta (tipoAlerta, descripcion, fecha, idViabilidad, idDatosMercado)
@@ -205,3 +220,9 @@ INSERT INTO Soporte (problemaReportado, estado, idProducto)
 VALUES 
 ('Problema con la actualización de inventario', 'Pendiente', 1),
 ('Error en la generación de alertas', 'Resuelto', 2);
+
+-- Ejemplo de inserción de datos para esta tabla
+INSERT INTO DetallesUso (usuarioEmail, fecha, accion, duracionSesion, estado)
+VALUES 
+('admin1@example.com', '2024-09-01 10:00:00', 'Acceso al sistema', '3h 20m', 'Exitoso'),
+('agricultor1@example.com', '2024-09-02 11:00:00', 'Editar perfil', '15m', 'Error');
