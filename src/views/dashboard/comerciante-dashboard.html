@@ -15,9 +15,41 @@
   <link href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" rel="stylesheet">
 
   <style>
+    .tab-bar {
+      background: rgb(189, 189, 189);
+      border-radius: 4px;
+      padding: 0.5rem 0;
+    }
+
+    .tab-link {
+      position: relative;
+      display: inline-block;
+      padding: 0.5rem 1rem;
+      font-weight: 600;
+      color: #000000;
+      text-decoration: none;
+      transition: color 0.3s ease, border 0.3s ease;
+      border-radius: 4px;
+    }
+
+    .tab-link::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 100%;
+      height: 4px;
+      background: linear-gradient(90deg, red, purple, blue);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .tab-link:hover::before,
+    .tab-link.tab-active::before {
+      opacity: 1;
+    }
+
     .tab-active {
-      border-bottom-width: 2px;
-      border-color: #3b82f6; /* azul-500 */
       color: #3b82f6;
     }
   </style>
@@ -56,7 +88,6 @@
           <div class="card mt-3">
             <div class="card-body">
               <h5 class="card-title">Lista de Ventas</h5>
-              <!-- Tabla -->
               <table class="table datatable">
                 <thead>
                   <tr>
@@ -95,21 +126,177 @@
         <div id="analisisMercado" class="tab-content hidden">
           <h2 class="text-xl font-bold text-green-700 mb-4">Análisis de Mercado</h2>
           <p>Visualiza y analiza los datos de mercado actuales para tomar decisiones informadas sobre precios y estrategias de ventas.</p>
-          <!-- Contenido adicional para análisis de mercado -->
+          
+          <!-- Line Chart -->
+          <div id="reportsChart"></div>
+
+          <script>
+            document.addEventListener("DOMContentLoaded", () => {
+              new ApexCharts(document.querySelector("#reportsChart"), {
+                series: [{
+                  name: 'Sales',
+                  data: [31, 40, 28, 51, 42, 82, 56],
+                }, {
+                  name: 'Revenue',
+                  data: [11, 32, 45, 32, 34, 52, 41]
+                }, {
+                  name: 'Customers',
+                  data: [15, 11, 32, 18, 9, 24, 11]
+                }],
+                chart: {
+                  height: 350,
+                  type: 'area',
+                  toolbar: {
+                    show: false
+                  },
+                },
+                markers: {
+                  size: 4
+                },
+                colors: ['#4154f1', '#2eca6a', '#ff771d'],
+                fill: {
+                  type: "gradient",
+                  gradient: {
+                    shadeIntensity: 1,
+                    opacityFrom: 0.3,
+                    opacityTo: 0.4,
+                    stops: [0, 90, 100]
+                  }
+                },
+                dataLabels: {
+                  enabled: false
+                },
+                stroke: {
+                  curve: 'smooth',
+                  width: 2
+                },
+                xaxis: {
+                  type: 'datetime',
+                  categories: ["2018-09-19T00:00:00.000Z", "2018-09-19T01:30:00.000Z", "2018-09-19T02:30:00.000Z", "2018-09-19T03:30:00.000Z", "2018-09-19T04:30:00.000Z", "2018-09-19T05:30:00.000Z", "2018-09-19T06:30:00.000Z"]
+                },
+                tooltip: {
+                  x: {
+                    format: 'dd/MM/yy HH:mm'
+                  },
+                }
+              }).render();
+            });
+          </script>
         </div>
 
         <!-- Pestaña Optimización de Ventas y Marketing -->
         <div id="optimizacionVentas" class="tab-content hidden">
           <h2 class="text-xl font-bold text-green-700 mb-4">Optimización de Ventas y Marketing</h2>
           <p>Mejora las estrategias de ventas y marketing para aumentar la rentabilidad y alcance de los productos agrícolas.</p>
-          <!-- Contenido adicional para optimización de ventas y marketing -->
+
+          <!-- Panel de métricas clave -->
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+            <div class="bg-white p-4 shadow rounded-lg">
+              <h4 class="text-lg font-semibold mb-2">Total de Ventas</h4>
+              <p class="text-2xl font-bold">$15,000</p>
+              <p class="text-sm text-green-500">+10% desde el último mes</p>
+            </div>
+            <div class="bg-white p-4 shadow rounded-lg">
+              <h4 class="text-lg font-semibold mb-2">Visitas al Sitio</h4>
+              <p class="text-2xl font-bold">25,000</p>
+              <p class="text-sm text-green-500">+15% desde el último mes</p>
+            </div>
+            <div class="bg-white p-4 shadow rounded-lg">
+              <h4 class="text-lg font-semibold mb-2">Tasa de Conversión</h4>
+              <p class="text-2xl font-bold">3.5%</p>
+              <p class="text-sm text-red-500">-0.5% desde el último mes</p>
+            </div>
+          </div>
+
+          <!-- Tabla de rendimiento de productos -->
+          <div class="card mt-3">
+            <div class="card-body">
+              <h5 class="card-title">Rendimiento de Productos</h5>
+              <table class="table datatable">
+                <thead>
+                  <tr>
+                    <th>Producto</th>
+                    <th>Ventas</th>
+                    <th>Visitas</th>
+                    <th>Tasa de Conversión</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Tomate</td>
+                    <td>$5,000</td>
+                    <td>8,000</td>
+                    <td>4.0%</td>
+                  </tr>
+                  <tr>
+                    <td>Papa</td>
+                    <td>$3,000</td>
+                    <td>6,500</td>
+                    <td>2.8%</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
         </div>
 
         <!-- Pestaña Alertas y Notificaciones -->
         <div id="alertasNotificaciones" class="tab-content hidden">
           <h2 class="text-xl font-bold text-green-700 mb-4">Alertas y Notificaciones</h2>
           <p>Recibe alertas y notificaciones sobre cambios en el mercado o en las condiciones de los productos.</p>
-          <!-- Contenido adicional para alertas y notificaciones -->
+
+          <!-- Configuración de alertas -->
+          <div class="bg-white p-4 shadow rounded-lg mb-4">
+            <h4 class="text-lg font-semibold mb-2">Configuración de Notificaciones</h4>
+            <div class="flex items-center mb-2">
+              <input type="checkbox" id="precioCambios" class="mr-2">
+              <label for="precioCambios" class="text-gray-700">Recibir notificaciones sobre cambios de precio</label>
+            </div>
+            <div class="flex items-center mb-2">
+              <input type="checkbox" id="productoStock" class="mr-2">
+              <label for="productoStock" class="text-gray-700">Recibir notificaciones sobre productos fuera de stock</label>
+            </div>
+            <div class="flex items-center mb-2">
+              <input type="checkbox" id="nuevosProductos" class="mr-2">
+              <label for="nuevosProductos" class="text-gray-700">Recibir notificaciones sobre nuevos productos</label>
+            </div>
+            <button class="bg-blue-500 text-white px-4 py-2 rounded-lg mt-2">Guardar Configuración</button>
+          </div>
+
+          <!-- Tabla de notificaciones -->
+          <div class="bg-white p-4 shadow rounded-lg">
+            <h4 class="text-lg font-semibold mb-2">Historial de Alertas</h4>
+            <table class="table datatable">
+              <thead>
+                <tr>
+                  <th>Fecha</th>
+                  <th>Tipo de Alerta</th>
+                  <th>Descripción</th>
+                  <th>Acciones</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>2024-09-10</td>
+                  <td>Cambio de Precio</td>
+                  <td>El precio del tomate ha aumentado un 5%.</td>
+                  <td>
+                    <button class="btn btn-sm btn-primary">Marcar como Leída</button>
+                    <button class="btn btn-sm btn-danger">Eliminar</button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>2024-09-08</td>
+                  <td>Producto Fuera de Stock</td>
+                  <td>La papa está temporalmente fuera de stock.</td>
+                  <td>
+                    <button class="btn btn-sm btn-primary">Marcar como Leída</button>
+                    <button class="btn btn-sm btn-danger">Eliminar</button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     </div>
@@ -149,10 +336,10 @@
   <!-- Vendor JS Files -->
   <script src="/dashboard/NiceAdmin/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
   <script src="/dashboard/NiceAdmin/assets/vendor/simple-datatables/simple-datatables.js"></script>
-  
+  <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+
   <!-- Inicializar DataTable -->
   <script>
-    // Inicializa la tabla de ventas con DataTables
     let dataTable = new simpleDatatables.DataTable(".datatable", {
         searchable: true,
         fixedHeight: true,
@@ -160,7 +347,35 @@
     });
   </script>
 
-  <script src="/dashboard/NiceAdmin/assets/js/main.js"></script>
+  <!-- Gráfico de Análisis de Mercado -->
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      fetch('/api/ventas')
+        .then(response => response.json())
+        .then(data => {
+          let fechas = data.map(item => item.fecha);
+          let productos = data.map(item => item.producto);
+  
+          var options = {
+            series: [{
+              name: 'Ventas',
+              data: productos
+            }],
+            chart: {
+              height: 350,
+              type: 'line',
+            },
+            xaxis: {
+              categories: fechas,
+            }
+          };
+  
+          var chart = new ApexCharts(document.querySelector("#reportsChart"), options);
+          chart.render();
+        })
+        .catch(error => console.error('Error al obtener los datos:', error));
+    });
+  </script>
 
 </body>
 </html>

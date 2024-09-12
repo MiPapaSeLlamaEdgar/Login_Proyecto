@@ -44,29 +44,45 @@ router.get('/comerciante-dashboard', isAuthenticated, authorizeRoles(['Comercian
 router.get('/user-dashboard', isAuthenticated, authorizeRoles(['Usuarios']), LoginController.userDashboard);
 
 // Ruta para actualizar el perfil, accesible para todos los usuarios autenticados
-router.post('/update-profile', isAuthenticated, (req, res) => {
+router.post('/update-profile', isAuthenticated, async (req, res) => {
     const { first_name, last_name, document_type, document_number, phone, address } = req.body;
-    const email = req.session.user.email; // Asumiendo que tienes la sesión configurada con el correo del usuario
+    const email = req.session.user.email; // Se asume que el correo del usuario está almacenado en la sesión
 
-    req.getConnection((err, conn) => {
-        if (err) {
-            console.error('Error al conectar con la base de datos:', err);
-            return res.json({ success: false, message: 'Error al conectar con la base de datos.' });
+    try {
+        // Usando la conexión a la base de datos con async/await
+        const [result] = await req.db.query(
+            'UPDATE Users SET first_name = ?, last_name = ?, document_type = ?, document_number = ?, phone = ?, address = ? WHERE email = ?',
+            [first_name, last_name, document_type, document_number, phone, address, email]
+        );
+
+        // Verificar si la actualización fue exitosa
+        if (result.affectedRows === 0) {
+            return res.json({ success: false, message: 'No se encontró el usuario o no se realizaron cambios.' });
         }
 
-        conn.query(
-            'UPDATE Users SET first_name = ?, last_name = ?, document_type = ?, document_number = ?, phone = ?, address = ? WHERE email = ?',
-            [first_name, last_name, document_type, document_number, phone, address, email],
-            (err, result) => {
-                if (err) {
-                    console.error('Error al actualizar los datos del perfil:', err);
-                    return res.json({ success: false, message: 'Error al actualizar los datos del perfil.' });
-                }
+        // Actualizar la sesión con los nuevos datos
+        req.session.user.first_name = first_name;
+        req.session.user.last_name = last_name;
+        req.session.user.document_type = document_type;
+        req.session.user.document_number = document_number;
+        req.session.user.phone = phone;
+        req.session.user.address = address;
 
-                return res.json({ success: true, message: 'Perfil actualizado con éxito.' });
+        // Guardar la sesión actualizada
+        req.session.save((err) => {
+            if (err) {
+                console.error('Error guardando la sesión:', err);
+                return res.status(500).json({ success: false, message: 'Error guardando la sesión.' });
             }
-        );
-    });
+
+            // Responder con éxito
+            return res.json({ success: true, message: 'Perfil actualizado con éxito.' });
+        });
+
+    } catch (err) {
+        console.error('Error al actualizar los datos del perfil:', err);
+        return res.status(500).json({ success: false, message: 'Error al actualizar los datos del perfil.' });
+    }
 });
 
 module.exports = router;

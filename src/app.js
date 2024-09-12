@@ -1,10 +1,8 @@
-// src/app.js
 const express = require('express');
 const { engine } = require('express-handlebars');
-const myconnection = require('express-myconnection');
-const mysql = require('mysql');
+const mysql = require('mysql2/promise'); // mysql2/promise para usar promesas
 const session = require('express-session');
-const MySQLStore = require('express-mysql-session')(session); // Importación para almacenar sesiones en MySQL
+const MySQLStore = require('express-mysql-session')(session);
 const bodyParser = require('body-parser');
 const path = require('path');
 
@@ -12,10 +10,9 @@ const path = require('path');
 const loginRoutes = require('./routes/login.js');
 const chatRoutes = require('./routes/chatRoutes.js');
 const evaluacionRoutes = require('./routes/evaluacionRoutes.js');
-const profileRoutes = require('./routes/profileRoutes.js'); // Importa el nuevo archivo de rutas para edición de perfil
-
-const openaiService = require('../openaiService'); // Asegúrate de que esta ruta sea correcta
-const authorizeRoles = require('./middleware/authMiddleware.js'); // Asegúrate de que esta ruta sea correcta
+const profileRoutes = require('./routes/profileRoutes.js');
+const openaiService = require('../openaiService');
+const authorizeRoles = require('./middleware/authMiddleware.js');
 
 const app = express();
 app.set('port', 5000);
@@ -79,25 +76,43 @@ app.use(session({
   resave: false,
   saveUninitialized: false,
   cookie: {
-    secure: process.env.NODE_ENV === 'production', // Asegúrate de que esté configurado como true en producción
+    secure: process.env.NODE_ENV === 'production',
     httpOnly: true,
     maxAge: 1000 * 60 * 60 * 24, // 1 día
     sameSite: 'lax', // Protección adicional contra ataques CSRF
   }
 }));
 
-// Conexión a la base de datos para otras operaciones
-app.use(myconnection(mysql, {
-  host: '127.0.0.1',
-  user: 'root',
-  password: '1234', // Reemplaza con tu contraseña
-  port: 3306,
-  database: 'GestionAgricola'
-}, 'single'));
-
 // Configuración de archivos estáticos
 app.use(express.static(path.join(__dirname, 'public')));
 
+// Middleware para establecer conexión a la base de datos usando mysql2/promise
+app.use(async (req, res, next) => {
+  try {
+    const connection = await mysql.createConnection({
+      host: '127.0.0.1',
+      user: 'root',
+      password: '1234', // Cambia esto por tu contraseña de MySQL
+      database: 'GestionAgricola',
+      port: 3306
+    });
+
+    // Asignar la conexión al objeto de la solicitud
+    req.db = connection;
+
+    // Cerrar la conexión cuando termine la solicitud
+    res.on('finish', () => {
+      if (req.db) {
+        req.db.end();
+      }
+    });
+
+    next();
+  } catch (err) {
+    console.error('Error al conectar con la base de datos:', err);
+    res.status(500).send('Error al conectar con la base de datos.');
+  }
+});
 
 // Rutas
 app.use('/', loginRoutes);
@@ -105,41 +120,7 @@ app.use('/', chatRoutes);
 app.use('/', evaluacionRoutes);
 app.use('/', profileRoutes); // Usa las rutas de edición de perfil
 
-// Ruta principal
-app.get('/', (req, res) => {
-  if (req.session.loggedin) {
-    switch (req.session.user.role) {
-      case 'Administrador':
-        return res.redirect('/admin-dashboard');
-      case 'Agricultores/Productores':
-        return res.redirect('/agricultor-dashboard');
-      case 'Comerciantes de Productos Agrícolas':
-        return res.redirect('/comerciante-dashboard');
-      default:
-        return res.redirect('/user-dashboard');
-    }
-  } else {
-    res.redirect('/index');
-  }
-});
-
-app.get('/admin-dashboard', authorizeRoles(['Administrador']), (req, res) => {
-  console.log('Usuario en la sesión:', req.session.user); // Log para depurar
-  res.render('dashboard/admin-dashboard', { user: req.session.user });
-});
-
-app.get('/agricultor-dashboard', authorizeRoles(['Agricultores/Productores']), (req, res) => {
-  res.render('dashboard/agricultor-dashboard', { user: req.session.user });
-});
-
-app.get('/comerciante-dashboard', authorizeRoles(['Comerciantes de Productos Agrícolas']), (req, res) => {
-  res.render('dashboard/comerciante-dashboard', { user: req.session.user });
-});
-
-app.get('/user-dashboard', authorizeRoles(['Usuarios']), (req, res) => {
-  res.render('dashboard/user-dashboard', { user: req.session.user });
-});
-
+// Iniciar el servidor
 app.listen(app.get('port'), () => {
-  console.log('Listening on port', app.get('port'));
+  console.log('Servidor corriendo en el puerto', app.get('port'));
 });
